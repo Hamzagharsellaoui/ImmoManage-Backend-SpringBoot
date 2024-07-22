@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>New Property</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="addPropertyForm" class="new-property">
+    <mat-form-field appearance="outline">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="address">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <input matInput formControlName="description">
+    </mat-form-field>
+    <h3>Equipments</h3>
+    <div formArrayName="propertyEquipmentsFormGroup">
+      <div *ngFor="let equipment of propertyEquipmentsFormGroup.controls; let i = index" [formGroupName]="i" class="equipment-group">
+        <mat-form-field appearance="outline" class="equipment-field">
+          <mat-label>Equipment Name</mat-label>
+          <input matInput formControlName="equipmentName">
+        </mat-form-field>
+        <button mat-mini-fab color="primary" (click)="addEquipment()" *ngIf="i === propertyEquipmentsFormGroup.controls.length - 1">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Rent Price</mat-label>
+      <input matInput formControlName="rentPrice">
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button color="primary" (click)="addProperty()" [disabled]="!addPropertyForm.valid" [mat-dialog-close]="true" cdkFocusInitial>Add Property</button>
+</mat-dialog-actions>

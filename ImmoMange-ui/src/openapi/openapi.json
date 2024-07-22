@@ -1,0 +1,1339 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "ImmoManage Api specification",
+    "contact": {
+      "name": "Hamza Gharsellaoui",
+      "email": "Hamza.gharsellaoui@gmail.com"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/tenant/{id}": {
+      "get": {
+        "tags": [
+          "tenant-controller"
+        ],
+        "operationId": "getTenant",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponseDtoTenantDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "tenant-controller"
+        ],
+        "operationId": "updateTenant",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TenantDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponseDtoTenantDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "tenant-controller"
+        ],
+        "operationId": "deleteTenant",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponseDtoString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/property/{id}": {
+      "get": {
+        "tags": [
+          "property-controller"
+        ],
+        "operationId": "getProperty",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponseDtoPropertyResponseDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "property-controller"
+        ],
+        "operationId": "updateProperty",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PropertyResponseDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponseDtoPropertyResponseDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "property-controller"
+        ],
+        "operationId": "deleteProperty",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponseDtoString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tenant": {
+      "get": {
+        "tags": [
+          "tenant-controller"
+        ],
+        "operationId": "getAllProperties",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponseDtoListTenant"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "tenant-controller"
+        ],
+        "operationId": "addTenant",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TenantDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponseDtoTenantDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/property": {
+      "post": {
+        "tags": [
+          "property-controller"
+        ],
+        "operationId": "addProperty",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PropertyResponseDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponseDtoPropertyResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/User/login": {
+      "post": {
+        "tags": [
+          "authentication-controller"
+        ],
+        "operationId": "loginUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponseDtoAuthenticationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/User/Register": {
+      "post": {
+        "tags": [
+          "authentication-controller"
+        ],
+        "operationId": "registerUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponseDtoString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/property/property": {
+      "get": {
+        "tags": [
+          "property-controller"
+        ],
+        "operationId": "getAllProperties_1",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponseDtoListPropertyResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/profile": {
+      "get": {
+        "tags": [
+          "security-controller"
+        ],
+        "operationId": "authentication",
+        "parameters": [
+          {
+            "name": "authentication",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "RSA",
+                "DSS",
+                "aNULL",
+                "DH",
+                "ECDH",
+                "KRB5",
+                "ECDSA",
+                "PSK",
+                "GOST94",
+                "GOST01",
+                "FZA",
+                "SRP",
+                "ANY"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "RSA",
+                    "DSS",
+                    "aNULL",
+                    "DH",
+                    "ECDH",
+                    "KRB5",
+                    "ECDSA",
+                    "PSK",
+                    "GOST94",
+                    "GOST01",
+                    "FZA",
+                    "SRP",
+                    "ANY"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TenantDto": {
+        "type": "object",
+        "properties": {
+          "cin": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "actualAddress": {
+            "type": "string"
+          },
+          "managerEmail": {
+            "type": "string"
+          }
+        }
+      },
+      "BaseResponseDtoTenantDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "100 CONTINUE",
+              "101 SWITCHING_PROTOCOLS",
+              "102 PROCESSING",
+              "103 EARLY_HINTS",
+              "103 CHECKPOINT",
+              "200 OK",
+              "201 CREATED",
+              "202 ACCEPTED",
+              "203 NON_AUTHORITATIVE_INFORMATION",
+              "204 NO_CONTENT",
+              "205 RESET_CONTENT",
+              "206 PARTIAL_CONTENT",
+              "207 MULTI_STATUS",
+              "208 ALREADY_REPORTED",
+              "226 IM_USED",
+              "300 MULTIPLE_CHOICES",
+              "301 MOVED_PERMANENTLY",
+              "302 FOUND",
+              "302 MOVED_TEMPORARILY",
+              "303 SEE_OTHER",
+              "304 NOT_MODIFIED",
+              "305 USE_PROXY",
+              "307 TEMPORARY_REDIRECT",
+              "308 PERMANENT_REDIRECT",
+              "400 BAD_REQUEST",
+              "401 UNAUTHORIZED",
+              "402 PAYMENT_REQUIRED",
+              "403 FORBIDDEN",
+              "404 NOT_FOUND",
+              "405 METHOD_NOT_ALLOWED",
+              "406 NOT_ACCEPTABLE",
+              "407 PROXY_AUTHENTICATION_REQUIRED",
+              "408 REQUEST_TIMEOUT",
+              "409 CONFLICT",
+              "410 GONE",
+              "411 LENGTH_REQUIRED",
+              "412 PRECONDITION_FAILED",
+              "413 PAYLOAD_TOO_LARGE",
+              "413 REQUEST_ENTITY_TOO_LARGE",
+              "414 URI_TOO_LONG",
+              "414 REQUEST_URI_TOO_LONG",
+              "415 UNSUPPORTED_MEDIA_TYPE",
+              "416 REQUESTED_RANGE_NOT_SATISFIABLE",
+              "417 EXPECTATION_FAILED",
+              "418 I_AM_A_TEAPOT",
+              "419 INSUFFICIENT_SPACE_ON_RESOURCE",
+              "420 METHOD_FAILURE",
+              "421 DESTINATION_LOCKED",
+              "422 UNPROCESSABLE_ENTITY",
+              "423 LOCKED",
+              "424 FAILED_DEPENDENCY",
+              "425 TOO_EARLY",
+              "426 UPGRADE_REQUIRED",
+              "428 PRECONDITION_REQUIRED",
+              "429 TOO_MANY_REQUESTS",
+              "431 REQUEST_HEADER_FIELDS_TOO_LARGE",
+              "451 UNAVAILABLE_FOR_LEGAL_REASONS",
+              "500 INTERNAL_SERVER_ERROR",
+              "501 NOT_IMPLEMENTED",
+              "502 BAD_GATEWAY",
+              "503 SERVICE_UNAVAILABLE",
+              "504 GATEWAY_TIMEOUT",
+              "505 HTTP_VERSION_NOT_SUPPORTED",
+              "506 VARIANT_ALSO_NEGOTIATES",
+              "507 INSUFFICIENT_STORAGE",
+              "508 LOOP_DETECTED",
+              "509 BANDWIDTH_LIMIT_EXCEEDED",
+              "510 NOT_EXTENDED",
+              "511 NETWORK_AUTHENTICATION_REQUIRED"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "error": {
+            "type": "boolean"
+          },
+          "data": {
+            "$ref": "#/components/schemas/TenantDto"
+          }
+        }
+      },
+      "PropertyEquipmentDto": {
+        "type": "object",
+        "properties": {
+          "equipmentName": {
+            "type": "string"
+          }
+        }
+      },
+      "PropertyImageDto": {
+        "type": "object",
+        "properties": {
+          "imageUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "PropertyResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rentPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "description": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "OCCUPIED",
+              "AVAILABLE",
+              "UNDER_MAINTENANCE"
+            ]
+          },
+          "propertyEquipmentDto": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PropertyEquipmentDto"
+            }
+          },
+          "propertyImages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PropertyImageDto"
+            }
+          },
+          "cinTenants": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "managerEmail": {
+            "type": "string"
+          }
+        }
+      },
+      "BaseResponseDtoPropertyResponseDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "100 CONTINUE",
+              "101 SWITCHING_PROTOCOLS",
+              "102 PROCESSING",
+              "103 EARLY_HINTS",
+              "103 CHECKPOINT",
+              "200 OK",
+              "201 CREATED",
+              "202 ACCEPTED",
+              "203 NON_AUTHORITATIVE_INFORMATION",
+              "204 NO_CONTENT",
+              "205 RESET_CONTENT",
+              "206 PARTIAL_CONTENT",
+              "207 MULTI_STATUS",
+              "208 ALREADY_REPORTED",
+              "226 IM_USED",
+              "300 MULTIPLE_CHOICES",
+              "301 MOVED_PERMANENTLY",
+              "302 FOUND",
+              "302 MOVED_TEMPORARILY",
+              "303 SEE_OTHER",
+              "304 NOT_MODIFIED",
+              "305 USE_PROXY",
+              "307 TEMPORARY_REDIRECT",
+              "308 PERMANENT_REDIRECT",
+              "400 BAD_REQUEST",
+              "401 UNAUTHORIZED",
+              "402 PAYMENT_REQUIRED",
+              "403 FORBIDDEN",
+              "404 NOT_FOUND",
+              "405 METHOD_NOT_ALLOWED",
+              "406 NOT_ACCEPTABLE",
+              "407 PROXY_AUTHENTICATION_REQUIRED",
+              "408 REQUEST_TIMEOUT",
+              "409 CONFLICT",
+              "410 GONE",
+              "411 LENGTH_REQUIRED",
+              "412 PRECONDITION_FAILED",
+              "413 PAYLOAD_TOO_LARGE",
+              "413 REQUEST_ENTITY_TOO_LARGE",
+              "414 URI_TOO_LONG",
+              "414 REQUEST_URI_TOO_LONG",
+              "415 UNSUPPORTED_MEDIA_TYPE",
+              "416 REQUESTED_RANGE_NOT_SATISFIABLE",
+              "417 EXPECTATION_FAILED",
+              "418 I_AM_A_TEAPOT",
+              "419 INSUFFICIENT_SPACE_ON_RESOURCE",
+              "420 METHOD_FAILURE",
+              "421 DESTINATION_LOCKED",
+              "422 UNPROCESSABLE_ENTITY",
+              "423 LOCKED",
+              "424 FAILED_DEPENDENCY",
+              "425 TOO_EARLY",
+              "426 UPGRADE_REQUIRED",
+              "428 PRECONDITION_REQUIRED",
+              "429 TOO_MANY_REQUESTS",
+              "431 REQUEST_HEADER_FIELDS_TOO_LARGE",
+              "451 UNAVAILABLE_FOR_LEGAL_REASONS",
+              "500 INTERNAL_SERVER_ERROR",
+              "501 NOT_IMPLEMENTED",
+              "502 BAD_GATEWAY",
+              "503 SERVICE_UNAVAILABLE",
+              "504 GATEWAY_TIMEOUT",
+              "505 HTTP_VERSION_NOT_SUPPORTED",
+              "506 VARIANT_ALSO_NEGOTIATES",
+              "507 INSUFFICIENT_STORAGE",
+              "508 LOOP_DETECTED",
+              "509 BANDWIDTH_LIMIT_EXCEEDED",
+              "510 NOT_EXTENDED",
+              "511 NETWORK_AUTHENTICATION_REQUIRED"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "error": {
+            "type": "boolean"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PropertyResponseDto"
+          }
+        }
+      },
+      "LoginRequestDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthenticationResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "BaseResponseDtoAuthenticationResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "100 CONTINUE",
+              "101 SWITCHING_PROTOCOLS",
+              "102 PROCESSING",
+              "103 EARLY_HINTS",
+              "103 CHECKPOINT",
+              "200 OK",
+              "201 CREATED",
+              "202 ACCEPTED",
+              "203 NON_AUTHORITATIVE_INFORMATION",
+              "204 NO_CONTENT",
+              "205 RESET_CONTENT",
+              "206 PARTIAL_CONTENT",
+              "207 MULTI_STATUS",
+              "208 ALREADY_REPORTED",
+              "226 IM_USED",
+              "300 MULTIPLE_CHOICES",
+              "301 MOVED_PERMANENTLY",
+              "302 FOUND",
+              "302 MOVED_TEMPORARILY",
+              "303 SEE_OTHER",
+              "304 NOT_MODIFIED",
+              "305 USE_PROXY",
+              "307 TEMPORARY_REDIRECT",
+              "308 PERMANENT_REDIRECT",
+              "400 BAD_REQUEST",
+              "401 UNAUTHORIZED",
+              "402 PAYMENT_REQUIRED",
+              "403 FORBIDDEN",
+              "404 NOT_FOUND",
+              "405 METHOD_NOT_ALLOWED",
+              "406 NOT_ACCEPTABLE",
+              "407 PROXY_AUTHENTICATION_REQUIRED",
+              "408 REQUEST_TIMEOUT",
+              "409 CONFLICT",
+              "410 GONE",
+              "411 LENGTH_REQUIRED",
+              "412 PRECONDITION_FAILED",
+              "413 PAYLOAD_TOO_LARGE",
+              "413 REQUEST_ENTITY_TOO_LARGE",
+              "414 URI_TOO_LONG",
+              "414 REQUEST_URI_TOO_LONG",
+              "415 UNSUPPORTED_MEDIA_TYPE",
+              "416 REQUESTED_RANGE_NOT_SATISFIABLE",
+              "417 EXPECTATION_FAILED",
+              "418 I_AM_A_TEAPOT",
+              "419 INSUFFICIENT_SPACE_ON_RESOURCE",
+              "420 METHOD_FAILURE",
+              "421 DESTINATION_LOCKED",
+              "422 UNPROCESSABLE_ENTITY",
+              "423 LOCKED",
+              "424 FAILED_DEPENDENCY",
+              "425 TOO_EARLY",
+              "426 UPGRADE_REQUIRED",
+              "428 PRECONDITION_REQUIRED",
+              "429 TOO_MANY_REQUESTS",
+              "431 REQUEST_HEADER_FIELDS_TOO_LARGE",
+              "451 UNAVAILABLE_FOR_LEGAL_REASONS",
+              "500 INTERNAL_SERVER_ERROR",
+              "501 NOT_IMPLEMENTED",
+              "502 BAD_GATEWAY",
+              "503 SERVICE_UNAVAILABLE",
+              "504 GATEWAY_TIMEOUT",
+              "505 HTTP_VERSION_NOT_SUPPORTED",
+              "506 VARIANT_ALSO_NEGOTIATES",
+              "507 INSUFFICIENT_STORAGE",
+              "508 LOOP_DETECTED",
+              "509 BANDWIDTH_LIMIT_EXCEEDED",
+              "510 NOT_EXTENDED",
+              "511 NETWORK_AUTHENTICATION_REQUIRED"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "error": {
+            "type": "boolean"
+          },
+          "data": {
+            "$ref": "#/components/schemas/AuthenticationResponse"
+          }
+        }
+      },
+      "RegisterRequestDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "BaseResponseDtoString": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "100 CONTINUE",
+              "101 SWITCHING_PROTOCOLS",
+              "102 PROCESSING",
+              "103 EARLY_HINTS",
+              "103 CHECKPOINT",
+              "200 OK",
+              "201 CREATED",
+              "202 ACCEPTED",
+              "203 NON_AUTHORITATIVE_INFORMATION",
+              "204 NO_CONTENT",
+              "205 RESET_CONTENT",
+              "206 PARTIAL_CONTENT",
+              "207 MULTI_STATUS",
+              "208 ALREADY_REPORTED",
+              "226 IM_USED",
+              "300 MULTIPLE_CHOICES",
+              "301 MOVED_PERMANENTLY",
+              "302 FOUND",
+              "302 MOVED_TEMPORARILY",
+              "303 SEE_OTHER",
+              "304 NOT_MODIFIED",
+              "305 USE_PROXY",
+              "307 TEMPORARY_REDIRECT",
+              "308 PERMANENT_REDIRECT",
+              "400 BAD_REQUEST",
+              "401 UNAUTHORIZED",
+              "402 PAYMENT_REQUIRED",
+              "403 FORBIDDEN",
+              "404 NOT_FOUND",
+              "405 METHOD_NOT_ALLOWED",
+              "406 NOT_ACCEPTABLE",
+              "407 PROXY_AUTHENTICATION_REQUIRED",
+              "408 REQUEST_TIMEOUT",
+              "409 CONFLICT",
+              "410 GONE",
+              "411 LENGTH_REQUIRED",
+              "412 PRECONDITION_FAILED",
+              "413 PAYLOAD_TOO_LARGE",
+              "413 REQUEST_ENTITY_TOO_LARGE",
+              "414 URI_TOO_LONG",
+              "414 REQUEST_URI_TOO_LONG",
+              "415 UNSUPPORTED_MEDIA_TYPE",
+              "416 REQUESTED_RANGE_NOT_SATISFIABLE",
+              "417 EXPECTATION_FAILED",
+              "418 I_AM_A_TEAPOT",
+              "419 INSUFFICIENT_SPACE_ON_RESOURCE",
+              "420 METHOD_FAILURE",
+              "421 DESTINATION_LOCKED",
+              "422 UNPROCESSABLE_ENTITY",
+              "423 LOCKED",
+              "424 FAILED_DEPENDENCY",
+              "425 TOO_EARLY",
+              "426 UPGRADE_REQUIRED",
+              "428 PRECONDITION_REQUIRED",
+              "429 TOO_MANY_REQUESTS",
+              "431 REQUEST_HEADER_FIELDS_TOO_LARGE",
+              "451 UNAVAILABLE_FOR_LEGAL_REASONS",
+              "500 INTERNAL_SERVER_ERROR",
+              "501 NOT_IMPLEMENTED",
+              "502 BAD_GATEWAY",
+              "503 SERVICE_UNAVAILABLE",
+              "504 GATEWAY_TIMEOUT",
+              "505 HTTP_VERSION_NOT_SUPPORTED",
+              "506 VARIANT_ALSO_NEGOTIATES",
+              "507 INSUFFICIENT_STORAGE",
+              "508 LOOP_DETECTED",
+              "509 BANDWIDTH_LIMIT_EXCEEDED",
+              "510 NOT_EXTENDED",
+              "511 NETWORK_AUTHENTICATION_REQUIRED"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "error": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "string"
+          }
+        }
+      },
+      "BaseResponseDtoListTenant": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "100 CONTINUE",
+              "101 SWITCHING_PROTOCOLS",
+              "102 PROCESSING",
+              "103 EARLY_HINTS",
+              "103 CHECKPOINT",
+              "200 OK",
+              "201 CREATED",
+              "202 ACCEPTED",
+              "203 NON_AUTHORITATIVE_INFORMATION",
+              "204 NO_CONTENT",
+              "205 RESET_CONTENT",
+              "206 PARTIAL_CONTENT",
+              "207 MULTI_STATUS",
+              "208 ALREADY_REPORTED",
+              "226 IM_USED",
+              "300 MULTIPLE_CHOICES",
+              "301 MOVED_PERMANENTLY",
+              "302 FOUND",
+              "302 MOVED_TEMPORARILY",
+              "303 SEE_OTHER",
+              "304 NOT_MODIFIED",
+              "305 USE_PROXY",
+              "307 TEMPORARY_REDIRECT",
+              "308 PERMANENT_REDIRECT",
+              "400 BAD_REQUEST",
+              "401 UNAUTHORIZED",
+              "402 PAYMENT_REQUIRED",
+              "403 FORBIDDEN",
+              "404 NOT_FOUND",
+              "405 METHOD_NOT_ALLOWED",
+              "406 NOT_ACCEPTABLE",
+              "407 PROXY_AUTHENTICATION_REQUIRED",
+              "408 REQUEST_TIMEOUT",
+              "409 CONFLICT",
+              "410 GONE",
+              "411 LENGTH_REQUIRED",
+              "412 PRECONDITION_FAILED",
+              "413 PAYLOAD_TOO_LARGE",
+              "413 REQUEST_ENTITY_TOO_LARGE",
+              "414 URI_TOO_LONG",
+              "414 REQUEST_URI_TOO_LONG",
+              "415 UNSUPPORTED_MEDIA_TYPE",
+              "416 REQUESTED_RANGE_NOT_SATISFIABLE",
+              "417 EXPECTATION_FAILED",
+              "418 I_AM_A_TEAPOT",
+              "419 INSUFFICIENT_SPACE_ON_RESOURCE",
+              "420 METHOD_FAILURE",
+              "421 DESTINATION_LOCKED",
+              "422 UNPROCESSABLE_ENTITY",
+              "423 LOCKED",
+              "424 FAILED_DEPENDENCY",
+              "425 TOO_EARLY",
+              "426 UPGRADE_REQUIRED",
+              "428 PRECONDITION_REQUIRED",
+              "429 TOO_MANY_REQUESTS",
+              "431 REQUEST_HEADER_FIELDS_TOO_LARGE",
+              "451 UNAVAILABLE_FOR_LEGAL_REASONS",
+              "500 INTERNAL_SERVER_ERROR",
+              "501 NOT_IMPLEMENTED",
+              "502 BAD_GATEWAY",
+              "503 SERVICE_UNAVAILABLE",
+              "504 GATEWAY_TIMEOUT",
+              "505 HTTP_VERSION_NOT_SUPPORTED",
+              "506 VARIANT_ALSO_NEGOTIATES",
+              "507 INSUFFICIENT_STORAGE",
+              "508 LOOP_DETECTED",
+              "509 BANDWIDTH_LIMIT_EXCEEDED",
+              "510 NOT_EXTENDED",
+              "511 NETWORK_AUTHENTICATION_REQUIRED"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "error": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tenant"
+            }
+          }
+        }
+      },
+      "GrantedAuthority": {
+        "type": "object",
+        "properties": {
+          "authority": {
+            "type": "string"
+          }
+        }
+      },
+      "Property": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rentPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "description": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "OCCUPIED",
+              "AVAILABLE",
+              "UNDER_MAINTENANCE"
+            ]
+          },
+          "propertyEquipments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PropertyEquipments"
+            }
+          },
+          "propertyImages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PropertyImages"
+            }
+          },
+          "manager": {
+            "$ref": "#/components/schemas/User"
+          },
+          "rentalContracts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RentalContract"
+            }
+          },
+          "tenants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tenant"
+            }
+          }
+        }
+      },
+      "PropertyEquipments": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "equipmentName": {
+            "type": "string"
+          }
+        }
+      },
+      "PropertyImages": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "imageUrl": {
+            "type": "string"
+          },
+          "property": {
+            "$ref": "#/components/schemas/Property"
+          }
+        }
+      },
+      "RentalContract": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "property": {
+            "$ref": "#/components/schemas/Property"
+          },
+          "tenantC": {
+            "$ref": "#/components/schemas/Tenant"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "monthlyRent": {
+            "type": "number"
+          },
+          "terms": {
+            "type": "string"
+          }
+        }
+      },
+      "RentalHistory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "property": {
+            "$ref": "#/components/schemas/Property"
+          },
+          "tenant": {
+            "$ref": "#/components/schemas/Tenant"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "wasEvicted": {
+            "type": "boolean"
+          },
+          "reasonForLeaving": {
+            "type": "string"
+          }
+        }
+      },
+      "Tenant": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "cin": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "rentalHistory": {
+            "$ref": "#/components/schemas/RentalHistory"
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Property"
+            }
+          },
+          "rentalContracts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RentalContract"
+            }
+          },
+          "manager": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "User": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "propertyList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Property"
+            }
+          },
+          "managerTenants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tenant"
+            }
+          },
+          "accountLocked": {
+            "type": "boolean"
+          },
+          "authorities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GrantedAuthority"
+            }
+          },
+          "username": {
+            "type": "string"
+          },
+          "accountNonExpired": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonLocked": {
+            "type": "boolean"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "BaseResponseDtoListPropertyResponseDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "100 CONTINUE",
+              "101 SWITCHING_PROTOCOLS",
+              "102 PROCESSING",
+              "103 EARLY_HINTS",
+              "103 CHECKPOINT",
+              "200 OK",
+              "201 CREATED",
+              "202 ACCEPTED",
+              "203 NON_AUTHORITATIVE_INFORMATION",
+              "204 NO_CONTENT",
+              "205 RESET_CONTENT",
+              "206 PARTIAL_CONTENT",
+              "207 MULTI_STATUS",
+              "208 ALREADY_REPORTED",
+              "226 IM_USED",
+              "300 MULTIPLE_CHOICES",
+              "301 MOVED_PERMANENTLY",
+              "302 FOUND",
+              "302 MOVED_TEMPORARILY",
+              "303 SEE_OTHER",
+              "304 NOT_MODIFIED",
+              "305 USE_PROXY",
+              "307 TEMPORARY_REDIRECT",
+              "308 PERMANENT_REDIRECT",
+              "400 BAD_REQUEST",
+              "401 UNAUTHORIZED",
+              "402 PAYMENT_REQUIRED",
+              "403 FORBIDDEN",
+              "404 NOT_FOUND",
+              "405 METHOD_NOT_ALLOWED",
+              "406 NOT_ACCEPTABLE",
+              "407 PROXY_AUTHENTICATION_REQUIRED",
+              "408 REQUEST_TIMEOUT",
+              "409 CONFLICT",
+              "410 GONE",
+              "411 LENGTH_REQUIRED",
+              "412 PRECONDITION_FAILED",
+              "413 PAYLOAD_TOO_LARGE",
+              "413 REQUEST_ENTITY_TOO_LARGE",
+              "414 URI_TOO_LONG",
+              "414 REQUEST_URI_TOO_LONG",
+              "415 UNSUPPORTED_MEDIA_TYPE",
+              "416 REQUESTED_RANGE_NOT_SATISFIABLE",
+              "417 EXPECTATION_FAILED",
+              "418 I_AM_A_TEAPOT",
+              "419 INSUFFICIENT_SPACE_ON_RESOURCE",
+              "420 METHOD_FAILURE",
+              "421 DESTINATION_LOCKED",
+              "422 UNPROCESSABLE_ENTITY",
+              "423 LOCKED",
+              "424 FAILED_DEPENDENCY",
+              "425 TOO_EARLY",
+              "426 UPGRADE_REQUIRED",
+              "428 PRECONDITION_REQUIRED",
+              "429 TOO_MANY_REQUESTS",
+              "431 REQUEST_HEADER_FIELDS_TOO_LARGE",
+              "451 UNAVAILABLE_FOR_LEGAL_REASONS",
+              "500 INTERNAL_SERVER_ERROR",
+              "501 NOT_IMPLEMENTED",
+              "502 BAD_GATEWAY",
+              "503 SERVICE_UNAVAILABLE",
+              "504 GATEWAY_TIMEOUT",
+              "505 HTTP_VERSION_NOT_SUPPORTED",
+              "506 VARIANT_ALSO_NEGOTIATES",
+              "507 INSUFFICIENT_STORAGE",
+              "508 LOOP_DETECTED",
+              "509 BANDWIDTH_LIMIT_EXCEEDED",
+              "510 NOT_EXTENDED",
+              "511 NETWORK_AUTHENTICATION_REQUIRED"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "error": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PropertyResponseDto"
+            }
+          }
+        }
+      }
+    }
+  }
+}
