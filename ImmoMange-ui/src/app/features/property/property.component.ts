@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {NewPropertyComponent} from "../new-property/new-property.component";
 import {PropertyService} from "../../services/services/propertyService";
+import {ViewPropertieComponent} from "../view-propertie/view-propertie.component";
 
 @Component({
   selector: 'app-property',
@@ -15,7 +16,7 @@ import {PropertyService} from "../../services/services/propertyService";
 })
 export class PropertyComponent implements OnInit {
   public dataSource: MatTableDataSource<any>;
-  public displayedColumns: string[] = ['address', 'description', 'rentPrice', 'status', 'update', 'delete'];
+  public displayedColumns: string[] = ['address', 'description', 'rentPrice', 'status', 'update', 'delete','view'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -49,24 +50,44 @@ export class PropertyComponent implements OnInit {
         }
       },
       error: (err) => {
-        console.error('Error fetching properties', err);
+        console.error('Error fetching properties', err.error.message());
       }
     });
   }
 
-  protected readonly updateProperty = updateProperty;
-
-  UpdateProperty() {
-
+  UpdateProperty(element: any): void {
+    // Your update logic here
   }
 
-  DeleteProperty() {
+  DeleteProperty(element: any): void {
+    // Your delete logic here
   }
 
+  ViewProperty(element: any): void {
+    this.propertyService.getProperty(element.id).subscribe({
+      next: (response) => {
+        const propertyDetails = {
+          address: response.data?.address,
+          description: response.data?.description,
+          rentPrice: response.data?.rentPrice,
+          status: response.data?.status,
+          propertyEquipments: response.data?.propertyEquipmentDto,
+          propertyImages: response.data?.propertyImages,
+          cinTenants: response.data?.cinTenants,
+          managerEmail: response.data?.managerEmail
+        };
 
-  newProperty() {
-    this.router.navigateByUrl("/newProperty")
+        this.dialog.open(ViewPropertieComponent, {
+          width: '1000px',
+          data: propertyDetails
+        });
+      },
+      error: (err) => {
+        console.error('Error fetching property details', err);
+      }
+    });
   }
+
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string) {
     const dialogRef = this.dialog.open(NewPropertyComponent, {
@@ -79,4 +100,5 @@ export class PropertyComponent implements OnInit {
     });
 
   }
+
 }

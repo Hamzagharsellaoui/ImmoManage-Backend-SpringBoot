@@ -12,8 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.security.Principal;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Data
 @Entity
@@ -40,11 +39,11 @@ public class User implements UserDetails, Principal {
 
     @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL)
     @JsonManagedReference("property-manager")
-    private List<Property> propertyList;
+    private List<Property> propertyList = new ArrayList<>();
 
     @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL)
     @JsonManagedReference("tenant-manager")
-    private List<Tenant> managerTenants;
+    private Set<Tenant> managerTenants= new HashSet<>();
 
     private boolean accountLocked;
 
@@ -53,30 +52,24 @@ public class User implements UserDetails, Principal {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
     }
-
     @Override
     public String getUsername() {
         return email;
     }
-
     @Override
     public String getPassword(){
         return password;
     }
-
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-
     @Override
     public boolean isAccountNonLocked() {
         return !accountLocked;
     }
-
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
 }

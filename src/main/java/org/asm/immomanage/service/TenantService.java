@@ -1,12 +1,21 @@
 package org.asm.immomanage.service;
 import lombok.RequiredArgsConstructor;
-import org.asm.immomanage.dto.tenantDto.TenantDtoMapper;
-import org.asm.immomanage.dto.tenantDto.TenantDto;
+import org.asm.immomanage.dto.tenantDto.TenantResponseDto;
+import org.asm.immomanage.exception.NoPropertiesFoundException;
+import org.asm.immomanage.exception.NoTenantsFoundException;
+import org.asm.immomanage.exception.PropertyAlreadyExistsException;
+import org.asm.immomanage.exception.PropertyNoAvailableException;
+import org.asm.immomanage.mappers.TenantDtoMapper;
+import org.asm.immomanage.dto.tenantDto.TenantRequestDto;
+import org.asm.immomanage.models.Property;
 import org.asm.immomanage.models.Tenant;
+import org.asm.immomanage.repository.PropertyRepository;
 import org.asm.immomanage.repository.TenantRepository;
+import org.asm.immomanage.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -14,27 +23,54 @@ import java.util.Optional;
 public class TenantService implements ITenantService {
 
     private final TenantRepository tenantRepository;
-    @Override
-    public TenantDto addTenantService(Tenant tenant) {
-        Tenant savedTenant = tenantRepository.save(tenant);
-        return TenantDtoMapper.toTenantDto(savedTenant);
-    }
+    private final PropertyRepository propertyRepository;
+    private final TenantDtoMapper tenantDtoMapper;
+    private final UserRepository userRepository;
 
     @Override
-    public TenantDto updateTenantService(Long id, TenantDto tenantDto) {
-        Optional<Tenant> optionalTenant = tenantRepository.findById(id);
-        if (optionalTenant.isPresent()){
-            Tenant tenant = optionalTenant.get();
-            Tenant updatedTenant = tenantRepository.save(tenant);
-            return TenantDtoMapper.toTenantDto(updatedTenant);
+    public TenantResponseDto addTenantService(TenantRequestDto tenantRequestDto) {
+        Optional<Tenant> existingTenant = tenantRepository.findByCin(tenantRequestDto.getCin());
+        Property actualProperty= propertyRepository.findById(tenantRequestDto.getActualPropertyId()).get();
+        if (existingTenant.isPresent()) {
+            throw new PropertyAlreadyExistsException("Tenant already exists with cin: " + tenantRequestDto.getCin());
         }
-        return null;
+        if(actualProperty.getStatus()!= Property.Status.AVAILABLE){
+            throw new PropertyNoAvailableException("Property with address :"+actualProperty.getAddress()+" is "+actualProperty.getStatus());
+        }
+        Tenant tenant = tenantDtoMapper.toTenant(tenantRequestDto);
+        Tenant savedTenant=tenantRepository.save(tenant);
+        actualProperty.setStatus(Property.Status.OCCUPIED);
+        propertyRepository.save(actualProperty);
+        return tenantDtoMapper.toTenantResponseDto(savedTenant);
     }
     @Override
-    public TenantDto getTenantService(Long idTenant) {
+    public TenantResponseDto updateTenantService(Long id, TenantRequestDto tenantRequestDto) {
+        Tenant tenant = tenantRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Property not found with id " + id));
+        Property actualProperty= propertyRepository.findById(tenantRequestDto.getActualPropertyId()).get();
+        tenant.setCin(tenantRequestDto.getCin());
+        tenant.setName(tenantRequestDto.getName());
+        tenant.setEmail(tenantRequestDto.getEmail());
+        if(actualProperty.getStatus()!= Property.Status.AVAILABLE){
+            throw new PropertyNoAvailableException("Property with address :"+actualProperty.getAddress()+" is "+actualProperty.getStatus());
+        }
+        if(tenant.getIdActualProperty()!= tenantRequestDto.getActualPropertyId()){
+            propertyRepository.findById(tenant.getIdActualProperty()).get().setStatus(Property.Status.AVAILABLE);
+            propertyRepository.save(propertyRepository.findById(tenant.getIdActualProperty()).get());
+            tenant.setIdActualProperty(tenantRequestDto.getActualPropertyId());
+            actualProperty.setStatus(Property.Status.OCCUPIED);
+            propertyRepository.save(actualProperty);
+        }
+        tenant.addProperty(propertyRepository.findById(tenantRequestDto.getActualPropertyId()).orElseThrow(() -> new NoPropertiesFoundException("Property not found with id " + id)));
+        tenant.setManager(userRepository.getReferenceById(tenantRequestDto.getManagerId()));
+        tenantRepository.save(tenant);
+        return tenantDtoMapper.toTenantResponseDto(tenant);
+    }
+    @Override
+    public TenantResponseDto getTenantService(Long idTenant) {
         Optional<Tenant> tenantOptional = tenantRepository.findById(idTenant);
-        return tenantOptional.map(TenantDtoMapper::toTenantDto).orElse(null);    }
-
+        return tenantOptional.map(tenantDtoMapper::toTenantResponseDto).orElse(null);
+    }
     @Override
     public Optional<Tenant> verifyTenantService(String cin) {
         Optional<Tenant> tenantOptional = tenantRepository.findByCin(cin);
@@ -49,10 +85,14 @@ public class TenantService implements ITenantService {
         Optional<Tenant> tenantOptional = tenantRepository.findById(idTenant);
         tenantOptional.ifPresent(tenantRepository::delete);
     }
-
     @Override
-    public Optional<List<Tenant>> getAllTenantsService() {
+    public List<TenantResponseDto> getAllTenantsService() {
         List<Tenant> tenants = tenantRepository.findAll();
-        return tenants.isEmpty() ? Optional.empty() : Optional.of(tenants);
+        if(tenants.isEmpty()){
+            throw new NoTenantsFoundException("No tenants found");
+        }
+        return tenants.stream()
+                .map(tenantDtoMapper::toTenantResponseDto)
+                .toList();
     }
 }

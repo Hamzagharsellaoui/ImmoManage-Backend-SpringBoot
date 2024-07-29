@@ -21,11 +21,9 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<BaseResponseDto<AuthenticationResponse>> loginUser(@Valid @RequestBody LoginRequestDto request) {
             return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.OK, "Login successful", false,userService.loginUserService(request)));
-
     }
     @PostMapping("/Register")
     public ResponseEntity<BaseResponseDto<String>> registerUser(@Valid @RequestBody RegisterRequestDto request , HttpServletResponse response) {
-        response.setHeader("Activation-Token", userService.registerUserService(request));
         return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.CREATED, "Registration successful", false, null), HttpStatus.CREATED);
     }
 }

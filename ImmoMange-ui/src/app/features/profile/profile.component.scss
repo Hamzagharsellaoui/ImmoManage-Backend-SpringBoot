@@ -1,3 +1,13 @@
-mat-card-header{
-  background-color: whitesmoke !important;
+.example-card {
+    width: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+
+.example-header-image {
+  background-image: ('ImmoMange-ui/src/assets/406023436_122105780708125490_8196522798825893308_n.jpg');
+  background-size: cover;
 }

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import {AuthService} from "../../../services/services/auth-service.service";
 import {RegisterRequestDto} from "../../../services/models/register-request-dto";
+import {AuthenticationService} from "../../../services/services/AuthenticationService";
+import {TokenService} from "../../../services/token/token.service";
 
 @Component({
   selector: 'app-register',
@@ -16,7 +17,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthenticationService,
   ) {}
 
   ngOnInit(): void {
@@ -33,11 +34,10 @@ export class RegisterComponent implements OnInit {
       this.registerForm.markAllAsTouched();
       return;
     }
-
-    const registrationRequest : RegisterRequestDto = this.registerForm.value;
-    this.authService.register(registrationRequest).subscribe({
+    let registrationRequest : RegisterRequestDto = this.registerForm.value;
+    this.authService.registerUser({body:registrationRequest}).subscribe({
       next: () => {
-        this.router.navigate(['property']);
+        this.router.navigate(["user/home"]).then();
       },
       error: (err) => {
         if (err.status === 302) {
@@ -58,6 +58,6 @@ export class RegisterComponent implements OnInit {
   }
 
   signIn(): void {
-    this.router.navigate(['user/login']);
+    this.router.navigateByUrl("/User/login");
   }
 }

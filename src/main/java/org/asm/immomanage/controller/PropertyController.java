@@ -1,12 +1,11 @@
 package org.asm.immomanage.controller;
 
 
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.asm.immomanage.dto.BaseResponseDto;
+import org.asm.immomanage.dto.propertyDto.PropertyRequestDto;
 import org.asm.immomanage.dto.propertyDto.PropertyResponseDto;
-import org.asm.immomanage.dto.propertyDto.PropertyDtoMapper;
-import org.asm.immomanage.models.Property;
+import org.asm.immomanage.mappers.PropertyDtoMapper;
 import org.asm.immomanage.service.IPropertyService;
 import org.asm.immomanage.service.IUserService;
 import org.springframework.http.HttpStatus;
@@ -25,21 +24,15 @@ public class PropertyController {
     private final IUserService userService;
     private final PropertyDtoMapper propertyDtoMapper;
 
-    @PostMapping()
-    public ResponseEntity<BaseResponseDto<PropertyResponseDto>> addProperty(@RequestBody PropertyResponseDto propertyResponseDto) {
-        Optional<Property> existingProperty = propertyService.verifyPropertyService(propertyResponseDto.address());
-        if (existingProperty.isEmpty()) {
-            PropertyResponseDto savedProperty = propertyService.addPropertyService(propertyResponseDto);
+    @PostMapping("/addProperty")
+    public ResponseEntity<BaseResponseDto<PropertyResponseDto>> addProperty(@RequestBody PropertyRequestDto propertyRequestDto) {
+            PropertyResponseDto savedProperty = propertyService.addPropertyService(propertyRequestDto);
             return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.CREATED, "Property added successfully", false, savedProperty), HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.FOUND, "Property already exists", false, null), HttpStatus.FOUND);
-        }
     }
-
     @PutMapping("{id}")
-    public ResponseEntity<BaseResponseDto<PropertyResponseDto>> updateProperty(@PathVariable long id, @RequestBody PropertyResponseDto propertyResponseDto) {
-        Optional<PropertyResponseDto> updatedProperty = Optional.of(propertyService.updatePropertyService(id, propertyResponseDto));
-        return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.OK, "The Property has been updated", false, updatedProperty.get()), HttpStatus.CREATED);
+    public ResponseEntity<BaseResponseDto<PropertyResponseDto>> updateProperty(@PathVariable long id, @RequestBody PropertyRequestDto propertyRequestDto) {
+        Optional<PropertyResponseDto> updatedProperty = Optional.of(propertyService.updatePropertyService(id, propertyRequestDto));
+        return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.OK, "The Property has been updated", false, updatedProperty.get()), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
@@ -57,7 +50,7 @@ public class PropertyController {
         return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.OK, "Deletion successful", false, null), HttpStatus.OK);
     }
 
-    @GetMapping("/property")
+    @GetMapping("/properties")
     public ResponseEntity<BaseResponseDto<List<PropertyResponseDto>>> getAllProperties() {
         List<PropertyResponseDto> propertiesDto = propertyService.getAllProperties();
         return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.OK, "Properties retrieved successfully", false, propertiesDto), HttpStatus.OK);

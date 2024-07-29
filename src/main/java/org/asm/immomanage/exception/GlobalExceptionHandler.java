@@ -12,24 +12,27 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<Object> handleUserAlreadyExistsException(UserAlreadyExistsException ex, WebRequest request) {
-        String bodyOfResponse = ex.getMessage();
-        return new ResponseEntity<>(bodyOfResponse, HttpStatus.FOUND);
+    public ResponseEntity<BaseResponseDto<String>> handleUserAlreadyExistsException(UserAlreadyExistsException ex, WebRequest request) {
+        return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.FOUND, ex.getMessage(), false,null), HttpStatus.FOUND);
     }
-
     @ExceptionHandler(InvalidCredentialsException.class)
-    public ResponseEntity<Object> handleInvalidCredentials(InvalidCredentialsException ex, WebRequest request) {
-        String bodyOfResponse = ex.getMessage();
-        return new ResponseEntity<>(bodyOfResponse, HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
-        String bodyOfResponse = "An error occurred";
-        return new ResponseEntity<>(bodyOfResponse, HttpStatus.INTERNAL_SERVER_ERROR); // 500 Internal Server Error
+    public ResponseEntity<BaseResponseDto<String>> handleInvalidCredentials(InvalidCredentialsException ex, WebRequest request) {
+        return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.UNAUTHORIZED, ex.getMessage(), false,null), HttpStatus.UNAUTHORIZED);
     }
     @ExceptionHandler(NoPropertiesFoundException.class)
-    public ResponseEntity<BaseResponseDto<Void>> handleNoPropertiesFoundException(NoPropertiesFoundException ex) {
+    public ResponseEntity<BaseResponseDto<String>> handleNoPropertiesFoundException(NoPropertiesFoundException ex) {
+        return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.NO_CONTENT, ex.getMessage(), true, null), HttpStatus.NO_CONTENT);
+    }
+    @ExceptionHandler(PropertyAlreadyExistsException.class)
+    public ResponseEntity<BaseResponseDto<String>> handlePropertyAlreadyExistsException(PropertyAlreadyExistsException ex) {
+        return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.FOUND, ex.getMessage(), true, null), HttpStatus.FOUND);
+    }
+    @ExceptionHandler(PropertyNoAvailableException.class)
+    public ResponseEntity<BaseResponseDto<String>> handlePropertyNoAvailableException(PropertyNoAvailableException ex) {
+        return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.FOUND, ex.getMessage(), true, null), HttpStatus.FOUND);
+    }
+    @ExceptionHandler(NoTenantsFoundException.class)
+    public ResponseEntity<BaseResponseDto<String>> handleNoTenantsFoundException(NoTenantsFoundException ex) {
         return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.NO_CONTENT, ex.getMessage(), true, null), HttpStatus.NO_CONTENT);
     }
 }

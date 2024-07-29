@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>Property Details</h2>
+<mat-dialog-content class="mat-typography">
+  <p><strong>Address:</strong> {{data.address}}</p>
+  <p><strong>Description:</strong> {{data.description}}</p>
+  <p><strong>Rent Price:</strong> {{data.rentPrice}}</p>
+  <p><strong>Status:</strong> {{data.status}}</p>
+  <p><strong>Manager:</strong> {{data.managerEmail}}</p>
+
+  <p><strong>Equipments:</strong></p>
+  <ul>
+    <li *ngFor="let equipment of data.propertyEquipments">{{equipment.equipmentName}}</li>
+  </ul>
+
+  <p><strong>Images:</strong></p>
+  <ul>
+    <li *ngFor="let image of data.propertyImages">{{image.imageUrl}}</li>
+  </ul>
+
+  <p><strong>Tenants:</strong></p>
+  <ul>
+    <li *ngFor="let tenant of data.cinTenants">{{tenant}}</li>
+  </ul>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button *ngIf="data.status === 'AVAILABLE'" mat-button color="primary" (click)="onRent()">Rent</button>
+  <button *ngIf="data.status === 'OCCUPIED'" mat-button color="primary" (click)="viewTenant()">Actual Tenant</button>
+</mat-dialog-actions>

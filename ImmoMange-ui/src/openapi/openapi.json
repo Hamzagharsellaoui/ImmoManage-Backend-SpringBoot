@@ -15,36 +15,7 @@
     }
   ],
   "paths": {
-    "/tenant/{id}": {
-      "get": {
-        "tags": [
-          "tenant-controller"
-        ],
-        "operationId": "getTenant",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/BaseResponseDtoTenantDto"
-                }
-              }
-            }
-          }
-        }
-      },
+    "/tenant/updateTenant/{id}": {
       "put": {
         "tags": [
           "tenant-controller"
@@ -65,7 +36,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TenantDto"
+                "$ref": "#/components/schemas/TenantRequestDto"
               }
             }
           },
@@ -77,36 +48,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/BaseResponseDtoTenantDto"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "tenant-controller"
-        ],
-        "operationId": "deleteTenant",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/BaseResponseDtoString"
+                  "$ref": "#/components/schemas/BaseResponseDtoTenantResponseDto"
                 }
               }
             }
@@ -164,7 +106,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PropertyResponseDto"
+                "$ref": "#/components/schemas/PropertyRequestDto"
               }
             }
           },
@@ -213,25 +155,7 @@
         }
       }
     },
-    "/tenant": {
-      "get": {
-        "tags": [
-          "tenant-controller"
-        ],
-        "operationId": "getAllProperties",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/BaseResponseDtoListTenant"
-                }
-              }
-            }
-          }
-        }
-      },
+    "/tenant/addTenant": {
       "post": {
         "tags": [
           "tenant-controller"
@@ -241,7 +165,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TenantDto"
+                "$ref": "#/components/schemas/TenantRequestDto"
               }
             }
           },
@@ -253,7 +177,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/BaseResponseDtoTenantDto"
+                  "$ref": "#/components/schemas/BaseResponseDtoTenantResponseDto"
                 }
               }
             }
@@ -261,7 +185,7 @@
         }
       }
     },
-    "/property": {
+    "/property/addProperty": {
       "post": {
         "tags": [
           "property-controller"
@@ -271,7 +195,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PropertyResponseDto"
+                "$ref": "#/components/schemas/PropertyRequestDto"
               }
             }
           },
@@ -351,12 +275,63 @@
         }
       }
     },
-    "/property/property": {
+    "/tenant": {
+      "get": {
+        "tags": [
+          "tenant-controller"
+        ],
+        "operationId": "getAllTenants",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponseDtoListTenantResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tenant/getTenant/{id}": {
+      "get": {
+        "tags": [
+          "tenant-controller"
+        ],
+        "operationId": "getTenant",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponseDtoTenantResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/property/properties": {
       "get": {
         "tags": [
           "property-controller"
         ],
-        "operationId": "getAllProperties_1",
+        "operationId": "getAllProperties",
         "responses": {
           "200": {
             "description": "OK",
@@ -371,34 +346,20 @@
         }
       }
     },
-    "/auth/profile": {
-      "get": {
+    "/tenant/deleteTenant/{id}": {
+      "delete": {
         "tags": [
-          "security-controller"
+          "tenant-controller"
         ],
-        "operationId": "authentication",
+        "operationId": "deleteTenant",
         "parameters": [
           {
-            "name": "authentication",
-            "in": "query",
+            "name": "id",
+            "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "enum": [
-                "RSA",
-                "DSS",
-                "aNULL",
-                "DH",
-                "ECDH",
-                "KRB5",
-                "ECDSA",
-                "PSK",
-                "GOST94",
-                "GOST01",
-                "FZA",
-                "SRP",
-                "ANY"
-              ]
+              "type": "integer",
+              "format": "int64"
             }
           }
         ],
@@ -408,22 +369,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "string",
-                  "enum": [
-                    "RSA",
-                    "DSS",
-                    "aNULL",
-                    "DH",
-                    "ECDH",
-                    "KRB5",
-                    "ECDSA",
-                    "PSK",
-                    "GOST94",
-                    "GOST01",
-                    "FZA",
-                    "SRP",
-                    "ANY"
-                  ]
+                  "$ref": "#/components/schemas/BaseResponseDtoString"
                 }
               }
             }
@@ -434,7 +380,7 @@
   },
   "components": {
     "schemas": {
-      "TenantDto": {
+      "TenantRequestDto": {
         "type": "object",
         "properties": {
           "cin": {
@@ -449,15 +395,17 @@
           "phoneNumber": {
             "type": "string"
           },
-          "actualAddress": {
-            "type": "string"
+          "actualPropertyId": {
+            "type": "integer",
+            "format": "int64"
           },
-          "managerEmail": {
-            "type": "string"
+          "managerId": {
+            "type": "integer",
+            "format": "int64"
           }
         }
       },
-      "BaseResponseDtoTenantDto": {
+      "BaseResponseDtoTenantResponseDto": {
         "type": "object",
         "properties": {
           "status": {
@@ -541,7 +489,44 @@
             "type": "boolean"
           },
           "data": {
-            "$ref": "#/components/schemas/TenantDto"
+            "$ref": "#/components/schemas/TenantResponseDto"
+          }
+        }
+      },
+      "TenantResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "cin": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "actualPropertyId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "propertyIds": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "managerId": {
+            "type": "integer",
+            "format": "int64"
           }
         }
       },
@@ -549,6 +534,13 @@
         "type": "object",
         "properties": {
           "equipmentName": {
+            "type": "string"
+          },
+          "propertyId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "propertyAddress": {
             "type": "string"
           }
         }
@@ -558,16 +550,19 @@
         "properties": {
           "imageUrl": {
             "type": "string"
-          }
-        }
-      },
-      "PropertyResponseDto": {
-        "type": "object",
-        "properties": {
-          "id": {
+          },
+          "propertyId": {
             "type": "integer",
             "format": "int64"
           },
+          "propertyAddress": {
+            "type": "string"
+          }
+        }
+      },
+      "PropertyRequestDto": {
+        "type": "object",
+        "properties": {
           "rentPrice": {
             "type": "number",
             "format": "double"
@@ -599,6 +594,7 @@
             }
           },
           "cinTenants": {
+            "uniqueItems": true,
             "type": "array",
             "items": {
               "type": "string"
@@ -606,6 +602,20 @@
           },
           "managerEmail": {
             "type": "string"
+          },
+          "equipmentIdsToDelete": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "imageIdsToDelete": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
         }
       },
@@ -694,6 +704,55 @@
           },
           "data": {
             "$ref": "#/components/schemas/PropertyResponseDto"
+          }
+        }
+      },
+      "PropertyResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rentPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "description": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "OCCUPIED",
+              "AVAILABLE",
+              "UNDER_MAINTENANCE"
+            ]
+          },
+          "propertyEquipmentDto": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PropertyEquipmentDto"
+            }
+          },
+          "propertyImages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PropertyImageDto"
+            }
+          },
+          "cinTenants": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "managerEmail": {
+            "type": "string"
           }
         }
       },
@@ -906,7 +965,7 @@
           }
         }
       },
-      "BaseResponseDtoListTenant": {
+      "BaseResponseDtoListTenantResponseDto": {
         "type": "object",
         "properties": {
           "status": {
@@ -992,254 +1051,8 @@
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Tenant"
+              "$ref": "#/components/schemas/TenantResponseDto"
             }
-          }
-        }
-      },
-      "GrantedAuthority": {
-        "type": "object",
-        "properties": {
-          "authority": {
-            "type": "string"
-          }
-        }
-      },
-      "Property": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "rentPrice": {
-            "type": "number",
-            "format": "double"
-          },
-          "description": {
-            "type": "string"
-          },
-          "address": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "OCCUPIED",
-              "AVAILABLE",
-              "UNDER_MAINTENANCE"
-            ]
-          },
-          "propertyEquipments": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PropertyEquipments"
-            }
-          },
-          "propertyImages": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PropertyImages"
-            }
-          },
-          "manager": {
-            "$ref": "#/components/schemas/User"
-          },
-          "rentalContracts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RentalContract"
-            }
-          },
-          "tenants": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Tenant"
-            }
-          }
-        }
-      },
-      "PropertyEquipments": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "equipmentName": {
-            "type": "string"
-          }
-        }
-      },
-      "PropertyImages": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "imageUrl": {
-            "type": "string"
-          },
-          "property": {
-            "$ref": "#/components/schemas/Property"
-          }
-        }
-      },
-      "RentalContract": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "property": {
-            "$ref": "#/components/schemas/Property"
-          },
-          "tenantC": {
-            "$ref": "#/components/schemas/Tenant"
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "monthlyRent": {
-            "type": "number"
-          },
-          "terms": {
-            "type": "string"
-          }
-        }
-      },
-      "RentalHistory": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "property": {
-            "$ref": "#/components/schemas/Property"
-          },
-          "tenant": {
-            "$ref": "#/components/schemas/Tenant"
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "wasEvicted": {
-            "type": "boolean"
-          },
-          "reasonForLeaving": {
-            "type": "string"
-          }
-        }
-      },
-      "Tenant": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "cin": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "phoneNumber": {
-            "type": "string"
-          },
-          "address": {
-            "type": "string"
-          },
-          "rentalHistory": {
-            "$ref": "#/components/schemas/RentalHistory"
-          },
-          "properties": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Property"
-            }
-          },
-          "rentalContracts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RentalContract"
-            }
-          },
-          "manager": {
-            "$ref": "#/components/schemas/User"
-          }
-        }
-      },
-      "User": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "propertyList": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Property"
-            }
-          },
-          "managerTenants": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Tenant"
-            }
-          },
-          "accountLocked": {
-            "type": "boolean"
-          },
-          "authorities": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GrantedAuthority"
-            }
-          },
-          "username": {
-            "type": "string"
-          },
-          "accountNonExpired": {
-            "type": "boolean"
-          },
-          "credentialsNonExpired": {
-            "type": "boolean"
-          },
-          "accountNonLocked": {
-            "type": "boolean"
-          },
-          "enabled": {
-            "type": "boolean"
           }
         }
       },
@@ -1333,6 +1146,14 @@
             }
           }
         }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "in": "header",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }

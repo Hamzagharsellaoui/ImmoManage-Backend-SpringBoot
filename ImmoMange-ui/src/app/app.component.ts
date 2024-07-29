@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {AuthService} from "./services/services/auth-service.service";
 
 @Component({
   selector: 'app-root',
@@ -9,8 +7,9 @@ import {AuthService} from "./services/services/auth-service.service";
 })
 export class AppComponent implements OnInit {
   title = 'ImmoMange-ui';
-  constructor(private authService: AuthService) {}
-  ngOnInit() {
-    this.authService.loadJwtTokenFromLocalStorage();
+
+
+  ngOnInit(): void {
+    // localStorage.clear();
   }
 }

@@ -3,30 +3,28 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor, HttpErrorResponse
+  HttpInterceptor, HttpHeaders
 } from '@angular/common/http';
-import {catchError, Observable, throwError} from 'rxjs';
-import {AuthService} from "../services/services/auth-service.service";
+import { Observable } from 'rxjs';
+import {TokenService} from "../services/token/token.service";
 
 @Injectable()
-export class AppHttpInterceptor implements HttpInterceptor {
+export class HttpTokenInterceptor implements HttpInterceptor {
 
-  constructor(private authService:AuthService) {}
+  constructor(
+    private tokenService: TokenService
+  ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if(!request.url.includes("/user/login")) {
-      let newRequest=request.clone({headers: request.headers.set('Authorization', 'bearer '+this.authService.accessToken)});
-      return next.handle(newRequest).pipe(
-        catchError(err => {
-          if(err.status==401) {
-            this.authService.logout();
-          }
-          return throwError(err.message);
+    const token = this.tokenService.token;
+    if (token) {
+      const authReq = request.clone({
+        headers: new HttpHeaders({
+          Authorization: 'Bearer ' + token
         })
-      );
+      });
+      return next.handle(authReq);
     }
-    else {
-      return next.handle(request);
-    }
+    return next.handle(request);
   }
 }

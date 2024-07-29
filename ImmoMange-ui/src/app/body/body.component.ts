@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AuthService} from "../services/services/auth-service.service";
+import {AuthenticationService} from "../services/services/AuthenticationService";
 
 @Component({
   selector: 'app-body',
@@ -7,7 +7,7 @@ import {AuthService} from "../services/services/auth-service.service";
   styleUrls: ['./body.component.scss']
 })
 export class BodyComponent{
-  constructor(public authService:AuthService) {}
+  constructor(public authService:AuthenticationService) {}
 
 
 

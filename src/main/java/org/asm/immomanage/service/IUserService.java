@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 @Component
 public interface IUserService {
-    String registerUserService(@Valid RegisterRequestDto registerRequestDto);
+    void registerUserService(@Valid RegisterRequestDto registerRequestDto);
     AuthenticationResponse loginUserService(LoginRequestDto request);
     Optional<User> verifyUserService(String email);
 

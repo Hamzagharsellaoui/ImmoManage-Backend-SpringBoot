@@ -8,8 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Data
 @Entity
@@ -52,10 +51,16 @@ public class Property {
     @JsonManagedReference("property-rentalContracts")
     private List<RentalContract> rentalContracts = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "properties")
-    private List<Tenant> tenants = new ArrayList<>();
+    @ManyToMany
+    @JsonBackReference
+    @JoinTable(
+            name = "property_tenants",
+            joinColumns = @JoinColumn(name = "property_id"),
+            inverseJoinColumns = @JoinColumn(name = "tenant_id")
+    )
+    private Set<Tenant> tenants = new HashSet<>();
 
-
+    private long idActualTenant;
 
 
     public enum Status {
@@ -72,5 +77,24 @@ public class Property {
     public void addPropertyImage(PropertyImages image) {
         image.setProperty(this);
         this.propertyImages.add(image);
+    }
+    public void addTenant(Tenant tenant) {
+        if (this.tenants == null) {
+            this.tenants = new HashSet<>();
+        }
+        this.tenants.add(tenant);
+        tenant.getProperties().add(this);
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Property property = (Property) obj;
+        return Objects.equals(id, property.id);
     }
 }

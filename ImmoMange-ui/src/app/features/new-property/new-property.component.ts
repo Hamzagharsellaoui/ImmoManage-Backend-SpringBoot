@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PropertyService} from "../../services/services/propertyService";
 import {Router} from "@angular/router";
-import {AuthService} from "../../services/services/auth-service.service";
+import {AuthenticationService} from "../../services/services/AuthenticationService";
 
 @Component({
   selector: 'app-new-property',
@@ -14,8 +14,10 @@ export class NewPropertyComponent implements OnInit {
   propertyEquipmentsFormGroup!: FormArray;
   errorMessage: Array<string> = [];
 
-  constructor(private fb: FormBuilder, private propertyService: PropertyService, private router: Router, private authService: AuthService) {
-
+  constructor(private fb: FormBuilder,
+              private propertyService: PropertyService,
+              private router: Router,
+              private authService: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -46,13 +48,11 @@ export class NewPropertyComponent implements OnInit {
 
 
   addProperty() {
-    // this.errorMessage = [];
-    // if (this.addPropertyForm.invalid) {
-    //   this.addPropertyForm.markAllAsTouched();
-    //   return;
-    // }
-    // const managerEmail = this.authService.getManagerEmail();
-    // const addPropertyRequest = {...this.addPropertyForm.value, managerEmail: managerEmail};
+    this.errorMessage = [];
+    if (this.addPropertyForm.invalid) {
+      this.addPropertyForm.markAllAsTouched();
+      return;
+    }
     // this.propertyService.addProperty(addPropertyRequest).subscribe({
     //   next: () => {
     //     this.router.navigate(['addPropertyMessage']);
@@ -68,19 +68,10 @@ export class NewPropertyComponent implements OnInit {
     //   }
     // });
   }
-//
-// this.authService.registerUser({ body: registrationRequest }).subscribe({
-//   next: () => {
-//     this.router.navigate(['properties']);
-//   },
-//   error: (err) => {
-//     if (err.status === 302) {
-//       this.addErrorMessage("There's already an employee with this email address.");
-//     } else if (err.error && err.error.validationErrors) {
-//       err.error.validationErrors.forEach((msg: string) => this.addErrorMessage(msg));
-//     } else {
-//       this.addErrorMessage('Registration failed.');
-//     }
-//   }
-// });
+
+  removeEquipment(index: number): void {
+    if (this.propertyEquipmentsFormGroup.length > 1) {
+      this.propertyEquipmentsFormGroup.removeAt(index);
+    }
+  }
 }

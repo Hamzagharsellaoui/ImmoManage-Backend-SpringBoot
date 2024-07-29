@@ -2,12 +2,16 @@ package org.asm.immomanage.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data
+@Builder
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Table(name="property_equipments")
 public class PropertyEquipments {
 
@@ -20,6 +24,8 @@ public class PropertyEquipments {
 
     @ManyToOne
     @JoinColumn(name = "property_id")
-    @JsonIgnore
     private Property property;
+
+
+
 }

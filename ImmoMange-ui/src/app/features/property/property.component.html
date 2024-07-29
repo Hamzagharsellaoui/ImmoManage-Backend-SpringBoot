@@ -6,54 +6,68 @@
     </mat-card-header>
     <mat-divider></mat-divider>
     <mat-card-content>
-      <table matSort mat-table [dataSource]="dataSource"  class="mat-elevation-z8">
+      <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
+        <!-- Address Column -->
         <ng-container matColumnDef="address">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
-          <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
+          <td mat-cell *matCellDef="let element">{{element.address}}</td>
         </ng-container>
 
+        <!-- Description Column -->
         <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
-          <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+          <td mat-cell *matCellDef="let element">{{element.description}}</td>
         </ng-container>
 
+        <!-- Rent Price Column -->
         <ng-container matColumnDef="rentPrice">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> RentPrice </th>
-          <td mat-cell *matCellDef="let element"> {{element.rentPrice}} </td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Rent Price</th>
+          <td mat-cell *matCellDef="let element">{{element.rentPrice}}</td>
         </ng-container>
 
+        <!-- Status Column -->
         <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
-          <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+          <td mat-cell *matCellDef="let element">{{element.status}}</td>
         </ng-container>
 
+        <!-- Update Column -->
         <ng-container matColumnDef="update">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>  </th>
+          <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
-            <button mat-mini-fab matTooltip="Update Property" color="primary" (click)="UpdateProperty()">
-              <mat-icon>edit property</mat-icon>
+            <button mat-icon-button matTooltip="Update Property" color="primary" (click)="UpdateProperty(element)">
+              <mat-icon>edit</mat-icon>
             </button>
           </td>
         </ng-container>
 
+        <!-- Delete Column -->
         <ng-container matColumnDef="delete">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>  </th>
+          <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
-            <button mat-mini-fab matTooltip="Delete Property" color="warn" (click)="DeleteProperty()">
+            <button mat-icon-button matTooltip="Delete Property" color="warn" (click)="DeleteProperty(element)">
               <mat-icon>delete</mat-icon>
             </button>
           </td>
         </ng-container>
 
+        <!-- View Column -->
+        <ng-container matColumnDef="view">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button matTooltip="View Property" color="accent" (click)="ViewProperty(element)">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
+        <!-- Header and Row Declarations -->
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 15]"
-                     showFirstLastButtons
-                     aria-label="Select page of periodic elements">
-      </mat-paginator>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
     </mat-card-content>
   </mat-card>
 </div>

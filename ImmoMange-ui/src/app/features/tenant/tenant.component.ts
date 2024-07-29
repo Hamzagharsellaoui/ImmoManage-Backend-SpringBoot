@@ -1,9 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {TenantService} from "../../services/services/TenantService";
 import {Tenant} from "../../services/models/tenant";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
+import {TenantService} from "../../services/services/TenantService";
 
 @Component({
   selector: 'app-tenant',

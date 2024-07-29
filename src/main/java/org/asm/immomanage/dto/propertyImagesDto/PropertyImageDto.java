@@ -1,12 +1,10 @@
 package org.asm.immomanage.dto.propertyImagesDto;
 
-import lombok.Data;
-@Data
-public class PropertyImageDto {
+import lombok.Builder;
 
-    public PropertyImageDto(String imageUrl){
-        this.imageUrl=imageUrl;
-    }
-    String imageUrl;
-
-}
+@Builder
+public record PropertyImageDto(
+        String imageUrl,
+        long propertyId,
+        String propertyAddress
+) {}

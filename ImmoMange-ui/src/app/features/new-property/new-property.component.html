@@ -19,6 +19,9 @@
         <button mat-mini-fab color="primary" (click)="addEquipment()" *ngIf="i === propertyEquipmentsFormGroup.controls.length - 1">
           <mat-icon>add</mat-icon>
         </button>
+        <button mat-mini-fab color="warn" (click)="removeEquipment(i)" *ngIf="i === propertyEquipmentsFormGroup.controls.length - 1 && propertyEquipmentsFormGroup.length > 1">
+          <mat-icon>remove</mat-icon>
+        </button>
       </div>
     </div>
     <mat-form-field appearance="outline">

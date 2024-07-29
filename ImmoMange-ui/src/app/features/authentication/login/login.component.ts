@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import {TokenService} from "../../../services/token/token.service";
 import {BaseResponseDtoAuthenticationResponse} from "../../../services/models/base-response-dto-authentication-response";
-import {AuthenticationResponse} from "../../../services/models/authentication-response";
-import {AuthService} from "../../../services/services/auth-service.service";
 import {Router} from "@angular/router";
+import {AuthenticationService} from "../../../services/services/AuthenticationService";
 
 @Component({
   selector: 'app-login',
@@ -18,7 +17,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService,
+    private authService: AuthenticationService,
     private tokenService: TokenService
   ) {}
 
@@ -34,27 +33,24 @@ export class LoginComponent implements OnInit {
       this.loginForm.markAllAsTouched();
       return;
     }
-
-    let authRequest = this.loginForm.value;
-    console.log('Login request:', authRequest);
-    this.authService.login(authRequest).subscribe({
+    this.authService.loginUser({body: this.loginForm.value})
+      .subscribe({
       next: (res: BaseResponseDtoAuthenticationResponse) => {
-        console.log('Login response:', res.data);
-        this.authService.loadProfile(res.data);
-        this.router.navigate(['home']).then();
+        this.tokenService.token = res.data.token as string;
+        this.router.navigate(["AppUser/home"]).then();
       },
-      error: (err) => {
-        console.error('Login error', err);
-        if (err.status === 401) {
-          this.errorMessage.push('Invalid credentials.');
-        } else if (err.error.message) {
-          if (!this.errorMessage.includes(err.error.message)) {
-            this.errorMessage.push(err.error.message);
+        error: (err) => {
+          console.error('Login error', err);
+          if (err.status === 401) {
+            this.errorMessage.push('Invalid credentials.');
+          } else if (err.error.message) {
+            if (!this.errorMessage.includes(err.error.message)) {
+              this.errorMessage.push(err.error.message);
+            }
+          } else {
+            this.errorMessage.push('An unexpected error occurred.');
           }
-        } else {
-          this.errorMessage.push('An unexpected error occurred.');
         }
-      }
     });
   }
   registration(): void {

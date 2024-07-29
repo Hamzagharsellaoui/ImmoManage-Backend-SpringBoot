@@ -10,23 +10,23 @@ import {DashboardComponent} from "./features/dashboard/dashboard.component";
 import {PropertyComponent} from "./features/property/property.component";
 import {NewPropertyComponent} from "./features/new-property/new-property.component";
 import {AddPropertyMessageComponent} from "./features/add-property-message/add-propertie-message.component";
-import {UserComponent} from "./user/user.component";
-import {authenticationGuard} from "./guards/authentication.guard";
+import {UserComponent} from "./appUser/user.component";
+import {authGuard} from "./services/guards/authentication.guard";
 
 const routes: Routes = [
   { path: "", redirectTo: "/user/login", pathMatch: "full" },
   { path: "user/login", component: LoginComponent },
   { path: "user/register", component: RegisterComponent },
-  { path: "user", component: UserComponent, canActivate: [authenticationGuard],
+    { path: "AppUser", component: UserComponent, canActivate: [authGuard],
     children: [
       { path: "body", component: BodyComponent },
-      { path: "home", component: HomeComponent, canActivate: [authenticationGuard] },
-      { path: "profile", component: ProfileComponent, canActivate: [authenticationGuard] },
-      { path: "tenant", component: TenantComponent, canActivate: [authenticationGuard] },
-      { path: "property", component: PropertyComponent, canActivate: [authenticationGuard] },
-      { path: "dashboard", component: DashboardComponent, canActivate: [authenticationGuard] },
-      { path: "property/newProperty", component: NewPropertyComponent, canActivate: [authenticationGuard] },
-      { path: "property/addPropertyMessage", component: AddPropertyMessageComponent, canActivate: [authenticationGuard] },
+      { path: "home", component: HomeComponent, canActivate: [authGuard] },
+      { path: "profile", component: ProfileComponent, canActivate: [authGuard] },
+      { path: "tenant", component: TenantComponent, canActivate: [authGuard] },
+      { path: "property", component: PropertyComponent, canActivate: [authGuard] },
+      { path: "dashboard", component: DashboardComponent, canActivate: [authGuard] },
+      { path: "property/newProperty", component: NewPropertyComponent, canActivate: [authGuard] },
+      { path: "property/addPropertyMessage", component: AddPropertyMessageComponent, canActivate: [authGuard] },
     ]
   }
 ];
