@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
-import {TenantService} from "../../services/services/TenantService";
+import {TenantService} from "../../../services/services/TenantService";
 import {MatDialog} from "@angular/material/dialog";
 import {ViewTenantComponent} from "../view-tenant/view-tenant.component";
 import {NewTenantComponent} from "../new-tenant/new-tenant.component";
@@ -27,6 +27,9 @@ export class TenantComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.getAllTenants();
+  }
+  getAllTenants(): void {
     this.tenantService.getAllTenants().subscribe({
       next: (response) => {
         if (response.data) {
@@ -45,7 +48,6 @@ export class TenantComponent implements OnInit{
           this.tenantIdCin = new Map(
             this.tenants.map(tenant => [tenant.cin, tenant.id])
           );
-
           console.log('Tenant ID to CIN Map:', this.tenantIdCin);
         } else {
           console.error('Response data is undefined or null');
@@ -64,11 +66,9 @@ export class TenantComponent implements OnInit{
 
     this.tenantService.deleteTenant({id}).subscribe({
       next: (response) => {
-        console.log('Tenant deleted successfully:', response);
-        // Optionally, you may want to update your tenant list or refresh the data
+        this.getAllTenants();
       },
       error: (err) => {
-        console.error('Error deleting tenant:', err);
       }
     });
   }

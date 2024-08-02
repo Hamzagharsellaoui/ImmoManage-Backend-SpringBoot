@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { TenantService } from '../../services/services/TenantService';
+import { TenantService } from '../../../services/services/TenantService';
 
 @Component({
   selector: 'app-update-tenant',
@@ -33,7 +33,7 @@ export class UpdateTenantComponent implements OnInit {
     if (this.updateForm.valid) {
       this.tenantService.updateTenant(this.data.tenant.id, this.updateForm.value).subscribe({
         next: () => {
-          this.dialogRef.close(true); // Notify the parent component of the successful update
+          this.dialogRef.close(true);
         },
         error: err => {
           console.error('Error updating tenant', err);

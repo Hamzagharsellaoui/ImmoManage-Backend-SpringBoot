@@ -26,4 +26,4 @@ export function getTenant(http: HttpClient, rootUrl: string, params: GetTenant$P
   );
 }
 
-getTenant.PATH = '/tenant/getTenant/id';
+getTenant.PATH = '/tenant/getTenant/{id}';

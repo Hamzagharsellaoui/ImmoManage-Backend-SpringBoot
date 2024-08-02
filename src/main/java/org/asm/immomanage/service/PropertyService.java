@@ -18,6 +18,7 @@ import org.asm.immomanage.models.Tenant;
 import org.asm.immomanage.repository.PropertyRepository;
 import org.asm.immomanage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -82,9 +83,22 @@ public class PropertyService implements IPropertyService {
         return propertyRepository.findById(id);
     }
     public void deletePropertyService(Long id) {
-        Optional<Property> propertyOptional = verifyPropertyService(id);
-        propertyOptional.ifPresent(propertyRepository::delete);
-    }
+        Property property = propertyRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tenant not found with id: " + id));
+        property.getPropertyImages().remove(property);
+        property.getPropertyEquipments().remove(property);
+        property.getTenants().forEach(
+                tenant -> {
+                    tenant.getProperties().remove(property);
+                    if(tenant.getIdActualProperty()==id){
+                        tenant.setIdActualProperty(-1);
+                    }
+                });
+        try {
+            propertyRepository.delete(property);
+        } catch (DataIntegrityViolationException e) {
+            throw new RuntimeException("Error occurred while deleting property: " + e.getMessage(), e);
+        }    }
     @Override
     public List<PropertyResponseDto> getAllProperties() {
         List<Property> properties = propertyRepository.findAll();

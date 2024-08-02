@@ -5,16 +5,16 @@ import {RegisterComponent} from "./features/authentication/register/register.com
 import {BodyComponent} from "./body/body.component";
 import {HomeComponent} from "./features/home/home.component";
 import {ProfileComponent} from "./features/profile/profile.component";
-import {TenantComponent} from "./features/tenant/tenant.component";
+import {TenantComponent} from "./features/Tenant/allTenants/tenant.component";
 import {DashboardComponent} from "./features/dashboard/dashboard.component";
-import {PropertyComponent} from "./features/property/property.component";
-import {NewPropertyComponent} from "./features/new-property/new-property.component";
-import {AddPropertyMessageComponent} from "./features/add-property-message/add-propertie-message.component";
+import {PropertyComponent} from "./features/Property/allProperties/property.component";
+import {NewPropertyComponent} from "./features/Property/new-property/new-property.component";
+import {AddPropertyMessageComponent} from "./features/messages/add-property-message/add-propertie-message.component";
 import {UserComponent} from "./appUser/user.component";
 import {authGuard} from "./services/guards/authentication.guard";
-import {NewTenantComponent} from "./features/new-tenant/new-tenant.component";
-import {AddTenantMessageComponent} from "./features/add-tenant-message/add-tenant-message.component";
-import {UpdateTenantComponent} from "./features/update-tenant/update-tenant.component";
+import {NewTenantComponent} from "./features/Tenant/new-tenant/new-tenant.component";
+import {AddTenantMessageComponent} from "./features/messages/add-tenant-message/add-tenant-message.component";
+import {UpdateTenantComponent} from "./features/Tenant/update-tenant/update-tenant.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "/Auth/login", pathMatch: "full" },

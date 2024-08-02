@@ -29,3 +29,4 @@ export function deleteProperty(http: HttpClient, rootUrl: string, params: Delete
 }
 
 deleteProperty.PATH = '/property/{id}';
+

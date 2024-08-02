@@ -36,7 +36,7 @@
         <span class="detail-label">Tenants:</span>
         <p *ngIf="(data?.tenantsIDS?.length || 0) === 0">No tenants assigned</p>
         <div class="styled-list">
-          <div *ngFor="let tenant of data?.tenantsIDS" class="styled-list-item">
+          <div *ngFor="let tenant of tenantNames" class="styled-list-item">
             <span>{{ tenant }}</span>
           </div>
         </div>

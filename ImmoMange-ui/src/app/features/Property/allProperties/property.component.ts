@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
-import { PropertyService } from "../../services/services/propertyService";
+import { PropertyService } from "../../../services/services/propertyService";
 import { MatDialog } from "@angular/material/dialog";
 import { NewPropertyComponent } from "../new-property/new-property.component";
 import { ViewPropertieComponent } from "../view-propertie/view-propertie.component";
@@ -63,11 +63,10 @@ export class PropertyComponent implements OnInit {
     let id: number;
     id = this.propertyAddressIdMap.get(address)!;
     console.log("Property ID:", id);
-
     this.propertyService.deleteProperty({ id }).subscribe({
       next: (response) => {
         console.log('Property deleted successfully:', response);
-        this.getAllProperties(); // Refresh the data after deletion
+        this.getAllProperties();
       },
       error: (err) => {
         console.error('Error deleting property:', err);

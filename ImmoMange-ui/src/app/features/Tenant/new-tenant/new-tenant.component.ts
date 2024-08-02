@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TenantService } from '../../services/services/TenantService';
-import { TenantRequestDto } from '../../services/models/tenant-request-dto';
-import { PropertyService } from '../../services/services/propertyService';
+import { TenantService } from '../../../services/services/TenantService';
+import { TenantRequestDto } from '../../../services/models/tenant-request-dto';
+import { PropertyService } from '../../../services/services/propertyService';
 import { Observable, catchError, of } from 'rxjs';
-import { AuthenticationService } from '../../services/services/AuthenticationService';
-import { TokenService } from '../../services/token/token.service';
+import { AuthenticationService } from '../../../services/services/AuthenticationService';
+import { TokenService } from '../../../services/token/token.service';
 import { map } from 'rxjs/operators';
-import { AddTenantMessageComponent } from '../add-tenant-message/add-tenant-message.component';
+import { AddTenantMessageComponent } from '../../messages/add-tenant-message/add-tenant-message.component';
 import { MatDialog } from '@angular/material/dialog';
-import {UserService} from "../../services/services/UserService";
-import {UserInfoRequest} from "../../services/models/user-info-request";
+import {UserService} from "../../../services/services/UserService";
+import {UserInfoRequest} from "../../../services/models/user-info-request";
 
 @Component({
   selector: 'app-new-tenant',

@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {PropertyService} from "../../services/services/propertyService";
+import {PropertyService} from "../../../services/services/propertyService";
 import {Router} from "@angular/router";
-import {PropertyRequestDto} from "../../services/models/property-request-dto";
-import {AuthenticationService} from "../../services/services/AuthenticationService";
+import {PropertyRequestDto} from "../../../services/models/property-request-dto";
+import {AuthenticationService} from "../../../services/services/AuthenticationService";
 
 @Component({
   selector: 'app-new-property',
