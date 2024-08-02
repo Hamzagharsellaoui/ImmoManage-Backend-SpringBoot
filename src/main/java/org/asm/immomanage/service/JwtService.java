@@ -4,8 +4,11 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
+import org.asm.immomanage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -14,8 +17,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+@RequiredArgsConstructor
 @Service
 public class JwtService {
+    private final UserRepository userRepository;
     @Value("${expiration}")
     private long jwtExpiration;
     @Value("${jwt.secret}")
@@ -24,6 +29,10 @@ public class JwtService {
         return generateToken(new HashMap<>(),userDetails);
     }
     public String generateToken(Map<String,Object> claims ,UserDetails userDetails){
+        Long userId =this.userRepository.findByEmail(userDetails.getUsername()).get().getId();
+        String userName=this.userRepository.findByEmail(userDetails.getUsername()).get().getName();
+        claims.put("userId", userId);
+        claims.put("username", userName);
         return buildToken(claims,userDetails,jwtExpiration);
     }
     private String buildToken(Map<String, Object> extraClaims, UserDetails userDetails, long jwtExpiration) {
@@ -52,7 +61,6 @@ public class JwtService {
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
-
     public String extractUsername(String token) {
         return extractClaim(token,Claims::getSubject);
     }

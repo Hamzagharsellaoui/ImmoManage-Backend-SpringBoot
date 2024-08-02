@@ -30,7 +30,7 @@ public class PropertyController {
             PropertyResponseDto savedProperty = propertyService.addPropertyService(propertyRequestDto);
             return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.CREATED, "Property added successfully", false, savedProperty), HttpStatus.CREATED);
     }
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<BaseResponseDto<PropertyResponseDto>> updateProperty(@PathVariable long id, @RequestBody PropertyRequestDto propertyRequestDto) {
         Optional<PropertyResponseDto> updatedProperty = Optional.of(propertyService.updatePropertyService(id, propertyRequestDto));
         return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.OK, "The Property has been updated", false, updatedProperty.get()), HttpStatus.OK);

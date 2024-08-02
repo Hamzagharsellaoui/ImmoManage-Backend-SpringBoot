@@ -28,9 +28,9 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
-
                 .authorizeHttpRequests(ar->ar.requestMatchers(
                         "/User/**",
+                        "/Auth/**",
                         "/v2/api-docs",
                         "/v3/api-docs",
                         "/v3/api-docs/**",
@@ -46,10 +46,8 @@ public class SecurityConfig {
                 ).permitAll()
                                 .anyRequest().authenticated()
                 )
-
                 .sessionManagement(session->session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)
-
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
