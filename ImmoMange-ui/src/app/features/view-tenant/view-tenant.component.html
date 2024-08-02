@@ -1,0 +1,40 @@
+<mat-card class="tenant-details-card">
+  <mat-card-header>
+    <mat-card-title>Tenant Details</mat-card-title>
+  </mat-card-header>
+  <mat-card-content >
+    <div class="details-container">
+      <div class="detail-item">
+        <span class="detail-label">CIN:</span>
+        <span class="detail-value">{{ tenant.cin }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Name:</span>
+        <span class="detail-value">{{ tenant.name }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Email:</span>
+        <span class="detail-value">{{ tenant.email }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Phone Number:</span>
+        <span class="detail-value">{{ tenant.phoneNumber }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Property Address:</span>
+        <span class="detail-value">{{ tenant.actualPropertyAddress }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Manager ID:</span>
+        <span class="detail-value">{{ tenant.managerId }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Property IDs:</span>
+        <span class="detail-value">{{ tenant.propertyIds.join(', ') }}</span>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" mat-dialog-close (click)="closeDialog()">Close</button>
+  </mat-card-actions>
+</mat-card>

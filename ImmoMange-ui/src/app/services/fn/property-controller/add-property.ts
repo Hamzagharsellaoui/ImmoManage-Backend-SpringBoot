@@ -7,10 +7,10 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 import { BaseResponseDtoPropertyResponseDto } from '../../models/base-response-dto-property-response-dto';
-import { PropertyResponseDto } from '../../models/property-response-dto';
+import { PropertyRequestDto } from '../../models/property-request-dto';
 
 export interface AddProperty$Params {
-      body: PropertyResponseDto
+      body: PropertyRequestDto
 }
 
 export function addProperty(http: HttpClient, rootUrl: string, params: AddProperty$Params, context?: HttpContext): Observable<StrictHttpResponse<BaseResponseDtoPropertyResponseDto>> {
@@ -29,4 +29,4 @@ export function addProperty(http: HttpClient, rootUrl: string, params: AddProper
   );
 }
 
-addProperty.PATH = '/property';
+addProperty.PATH = '/property/addProperty';

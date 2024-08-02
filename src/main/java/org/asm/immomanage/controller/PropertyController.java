@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -35,7 +36,7 @@ public class PropertyController {
         return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.OK, "The Property has been updated", false, updatedProperty.get()), HttpStatus.OK);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<BaseResponseDto<PropertyResponseDto>> getProperty(@PathVariable long id) {
         PropertyResponseDto searchedProperty = propertyService.getPropertyService(id);
         if (searchedProperty != null) {
@@ -55,5 +56,9 @@ public class PropertyController {
         List<PropertyResponseDto> propertiesDto = propertyService.getAllProperties();
         return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.OK, "Properties retrieved successfully", false, propertiesDto), HttpStatus.OK);
     }
+    @GetMapping("/availableProperties")
+    public ResponseEntity<BaseResponseDto< Map<Long,String>>> getAllAvailableProperties() {
+        Map<Long,String> availablePropertiesIdsDto = propertyService.getAllAvailableProperties();
+        return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.OK, "Availabe Properties IDs retrieved successfully", false, availablePropertiesIdsDto), HttpStatus.OK);    }
 }
 

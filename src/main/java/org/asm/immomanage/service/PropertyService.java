@@ -19,10 +19,9 @@ import org.asm.immomanage.repository.PropertyRepository;
 import org.asm.immomanage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.Set;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Builder
@@ -96,6 +95,14 @@ public class PropertyService implements IPropertyService {
         return properties.stream()
                 .map(propertyDtoMapper::toPropertyResponseDto)
                 .toList();
+    }
+    @Override
+    public Map<Long, String> getAllAvailableProperties() {
+        Optional<List<Property>> optionalProperties = propertyRepository.findByStatus(Property.Status.AVAILABLE);
+        List<Property> properties = optionalProperties
+                .orElseThrow(() -> new NoPropertiesFoundException("No properties available found"));
+        return properties.stream()
+                .collect(Collectors.toMap(Property::getId, Property::getAddress));
     }
     private Set<Property> findRelatedProperties(Set<Long> ids) {
         return propertyRepository.findByIds(ids);

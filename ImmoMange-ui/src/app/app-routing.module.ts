@@ -12,6 +12,8 @@ import {NewPropertyComponent} from "./features/new-property/new-property.compone
 import {AddPropertyMessageComponent} from "./features/add-property-message/add-propertie-message.component";
 import {UserComponent} from "./appUser/user.component";
 import {authGuard} from "./services/guards/authentication.guard";
+import {NewTenantComponent} from "./features/new-tenant/new-tenant.component";
+import {AddTenantMessageComponent} from "./features/add-tenant-message/add-tenant-message.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "/user/login", pathMatch: "full" },
@@ -22,14 +24,20 @@ const routes: Routes = [
       { path: "body", component: BodyComponent },
       { path: "home", component: HomeComponent, canActivate: [authGuard] },
       { path: "profile", component: ProfileComponent, canActivate: [authGuard] },
-      { path: "tenant", component: TenantComponent, canActivate: [authGuard] },
-      { path: "property", component: PropertyComponent, canActivate: [authGuard] },
+      { path: "tenant", component: TenantComponent, canActivate: [authGuard],
+        children: [
+          { path: "newTenant", component: NewTenantComponent, canActivate: [authGuard] },
+          { path: "tenant/addTenantMessage", component: AddTenantMessageComponent, canActivate: [authGuard] },
+        ]
+          },
+      { path: "property", component: PropertyComponent, canActivate: [authGuard],
+        children:[
+          { path: "newProperty", component: NewPropertyComponent, canActivate: [authGuard] },
+          { path: "addPropertyMessage", component: AddPropertyMessageComponent, canActivate: [authGuard] }
+        ]
+      },
       { path: "dashboard", component: DashboardComponent, canActivate: [authGuard] },
-      { path: "property/newProperty", component: NewPropertyComponent, canActivate: [authGuard] },
-      { path: "property/addPropertyMessage", component: AddPropertyMessageComponent, canActivate: [authGuard] },
-    ]
-  }
-];
+    ]}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

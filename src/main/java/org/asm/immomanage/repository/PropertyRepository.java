@@ -17,4 +17,6 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     @Query("SELECT p FROM Property p WHERE p.id IN :propertyIds")
     Set<Property> findByIds(@Param("propertyIds") Set<Long> propertyIds);
+
+    Optional<List<Property>> findByStatus(Property.Status AVILABLE);
 }

@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     this.authService.loginUser({body: this.loginForm.value})
       .subscribe({
       next: (res: BaseResponseDtoAuthenticationResponse) => {
-        this.tokenService.token = res.data.token as string;
+        this.tokenService.token = res.data.token;
         this.router.navigate(["AppUser/home"]).then();
       },
         error: (err) => {

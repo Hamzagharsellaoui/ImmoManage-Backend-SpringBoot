@@ -18,9 +18,7 @@ public record PropertyRequestDto(
         List<PropertyEquipmentDto> propertyEquipmentDto,
         List<PropertyImageDto> propertyImages,
         Set<String> cinTenants,
-        String managerEmail,
-        List<Long> equipmentIdsToDelete,
-        List<Long> imageIdsToDelete
+        String  managerEmail
 ) {
 
 }

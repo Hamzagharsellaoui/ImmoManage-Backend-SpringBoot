@@ -1,5 +1,8 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {JwtHelperService} from "@auth0/angular-jwt";
+import { Component, OnInit } from '@angular/core';
+import { TokenService } from '../../services/token/token.service';
+import { Router } from '@angular/router';
+import { AuthenticationService } from '../../services/services/AuthenticationService';
+import { GetUserInfoParams } from '../../services/fn/authentication-controller/get-user-info';
 
 @Component({
   selector: 'app-profile',
@@ -8,37 +11,51 @@ import {JwtHelperService} from "@auth0/angular-jwt";
 })
 export class ProfileComponent implements OnInit {
   user: any;
-  imageUrl: string | ArrayBuffer | null = 'assets/default-profile.png';
+  errorMessage: Array<string> = [];
+  currentUserId?: number;
 
-  @ViewChild('fileInput') fileInput!: ElementRef;
-
-  constructor(private jwtHelper: JwtHelperService) {}
+  constructor(
+    private tokenService: TokenService,
+    private router: Router,
+    private authService: AuthenticationService
+  ) {}
 
   ngOnInit() {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decodedToken = this.jwtHelper.decodeToken(token);
-      this.user = {
-        name: decodedToken.name,
-        email: decodedToken.email,
-        role: decodedToken.role,
-        joinedDate: decodedToken.joinedDate, // Adjust according to your token structure
-      };
+    this.getCurrentUserID();
+  }
+
+  getCurrentUserID() {
+    const email = this.tokenService.getUserIdFromToken();
+    if (email) {
+      this.authService.getUserInfo(email).subscribe({
+        next: (res) => {
+          if (res && res.data) {
+            this.user = res.data;
+            console.log('Current User Info:', res.data);
+          } else {
+            this.addErrorMessage('User info is undefined.');
+          }
+        },
+        error: (err) => {
+          this.addErrorMessage('Failed to load current user info.');
+        }
+      });
+    } else {
+      this.addErrorMessage('No user ID found in token.');
     }
   }
 
-  triggerFileInput() {
-    this.fileInput.nativeElement.click();
-  }
-
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imageUrl = reader.result;
-      };
-      reader.readAsDataURL(file);
+  addErrorMessage(message: string): void {
+    if (!this.errorMessage.includes(message)) {
+      this.errorMessage.push(message);
     }
   }
+
+  formatName(name: string): string {
+    const words = name.split(' ');
+    const firstWord = words[0].charAt(0).toUpperCase() + words[0].slice(1).toLowerCase();
+    const restOfWords = words.slice(1).map(word => word.toUpperCase()).join(' ');
+    return `${firstWord} ${restOfWords}`;
+  }
+
 }

@@ -1,0 +1,24 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Result</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-dialog-content>
+      <ng-container *ngIf="isSuccessMessage(); else errorContent">
+        <div class="message-container success">
+          <mat-icon>done</mat-icon>
+          <p>{{ data.message }}</p>
+        </div>
+      </ng-container>
+      <ng-template #errorContent>
+        <div class="message-container error">
+          <mat-icon>error</mat-icon>
+          <p>{{ data.message }}</p>
+        </div>
+      </ng-template>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button mat-dialog-close (click)="refresh()">Close</button>
+    </mat-dialog-actions>
+  </mat-card-content>
+</mat-card>

@@ -1,38 +1,33 @@
 <div class="container">
-  <mat-card>
+  <mat-card class="property-card">
     <mat-card-header>
-      <mat-card-title class="container">Properties</mat-card-title>
-      <button mat-button (click)="openDialog('400ms', '400ms')" class="add-button">Add Property</button>
+      <mat-card-title>Properties</mat-card-title>
+      <button mat-raised-button color="primary" (click)="openDialog('400ms', '400ms')" class="add-button">Add Property</button>
     </mat-card-header>
     <mat-divider></mat-divider>
     <mat-card-content>
-      <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8 stylish-table">
 
-        <!-- Address Column -->
         <ng-container matColumnDef="address">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
           <td mat-cell *matCellDef="let element">{{element.address}}</td>
         </ng-container>
 
-        <!-- Description Column -->
         <ng-container matColumnDef="description">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
           <td mat-cell *matCellDef="let element">{{element.description}}</td>
         </ng-container>
 
-        <!-- Rent Price Column -->
         <ng-container matColumnDef="rentPrice">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Rent Price</th>
           <td mat-cell *matCellDef="let element">{{element.rentPrice}}</td>
         </ng-container>
 
-        <!-- Status Column -->
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
           <td mat-cell *matCellDef="let element">{{element.status}}</td>
         </ng-container>
 
-        <!-- Update Column -->
         <ng-container matColumnDef="update">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
@@ -42,7 +37,6 @@
           </td>
         </ng-container>
 
-        <!-- Delete Column -->
         <ng-container matColumnDef="delete">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
@@ -52,7 +46,6 @@
           </td>
         </ng-container>
 
-        <!-- View Column -->
         <ng-container matColumnDef="view">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
@@ -62,7 +55,6 @@
           </td>
         </ng-container>
 
-        <!-- Header and Row Declarations -->
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>

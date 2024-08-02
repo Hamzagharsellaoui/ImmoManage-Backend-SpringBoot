@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-import { PropertyResponseDto } from '../models/property-response-dto';
+import { PropertyResponseDto } from './property-response-dto';
 export interface BaseResponseDtoListPropertyResponseDto {
   data?: Array<PropertyResponseDto>;
   error?: boolean;

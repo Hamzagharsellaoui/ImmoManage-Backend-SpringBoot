@@ -13,6 +13,7 @@ public class TenantResponseDto {
     private String email;
     private String phoneNumber;
     private long actualPropertyId;
+    private String actualPropertyAddress;
     private Set<Long> propertyIds;
     private long managerId;
 }

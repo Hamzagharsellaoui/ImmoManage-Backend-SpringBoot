@@ -24,13 +24,7 @@ public class PropertyDtoMapper {
     private final PropertyImagesDtoMapper propertyImagesDtoMapper;
 
     public Property toProperty(PropertyRequestDto propertyRequestDto) {
-        List<PropertyEquipments> equipments = propertyRequestDto.propertyEquipmentDto().stream()
-                .map(propertyEquipmentDtoMapper::toPropertyEquipment)
-                .toList();
 
-        List<PropertyImages> images = propertyRequestDto.propertyImages().stream()
-                .map(propertyImagesDtoMapper::toPropertyImage)
-                .toList();
         Property property = Property.builder()
                 .rentPrice(propertyRequestDto.rentPrice())
                 .description(propertyRequestDto.description())
@@ -41,9 +35,19 @@ public class PropertyDtoMapper {
                 .propertyEquipments(new ArrayList<>())
                 .propertyImages(new ArrayList<>())
                 .build();
+        if(propertyRequestDto.propertyEquipmentDto()!=null && !propertyRequestDto.propertyEquipmentDto().isEmpty()){
+            List<PropertyEquipments> equipments = propertyRequestDto.propertyEquipmentDto().stream()
+                    .map(propertyEquipmentDtoMapper::toPropertyEquipment)
+                    .toList();
+            equipments.forEach(property::addPropertyEquipment);
 
-        equipments.forEach(property::addPropertyEquipment);
-        images.forEach(property::addPropertyImage);
+        }
+        if(propertyRequestDto.propertyImages()!=null && !propertyRequestDto.propertyImages().isEmpty()){
+            List<PropertyImages> images = propertyRequestDto.propertyImages().stream()
+                    .map(propertyImagesDtoMapper::toPropertyImage)
+                    .toList();
+            images.forEach(property::addPropertyImage);
+        }
         return property;
     }
     public  PropertyResponseDto toPropertyResponseDto(Property property) {

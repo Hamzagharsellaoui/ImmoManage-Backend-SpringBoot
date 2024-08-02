@@ -6,6 +6,7 @@ import org.asm.immomanage.models.Property;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 @Component
 public interface IPropertyService {
@@ -15,4 +16,6 @@ public interface IPropertyService {
     Optional<Property> verifyPropertyService(long id);
     void deletePropertyService(Long id);
     List<PropertyResponseDto> getAllProperties();
+
+    Map<Long,String> getAllAvailableProperties();
 }

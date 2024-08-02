@@ -6,14 +6,14 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { BaseResponseDtoTenantDto } from '../../models/base-response-dto-tenant-dto';
-import { TenantDto } from '../../models/tenant-dto';
+import { BaseResponseDtoTenantResponseDto } from '../../models/base-response-dto-tenant-response-dto';
+import { TenantRequestDto } from '../../models/tenant-request-dto';
 
 export interface AddTenant$Params {
-      body: TenantDto
+      body: TenantRequestDto
 }
 
-export function addTenant(http: HttpClient, rootUrl: string, params: AddTenant$Params, context?: HttpContext): Observable<StrictHttpResponse<BaseResponseDtoTenantDto>> {
+export function addTenant(http: HttpClient, rootUrl: string, params: AddTenant$Params, context?: HttpContext): Observable<StrictHttpResponse<BaseResponseDtoTenantResponseDto>> {
   const rb = new RequestBuilder(rootUrl, addTenant.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
@@ -24,9 +24,9 @@ export function addTenant(http: HttpClient, rootUrl: string, params: AddTenant$P
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<BaseResponseDtoTenantDto>;
+      return r as StrictHttpResponse<BaseResponseDtoTenantResponseDto>;
     })
   );
 }
 
-addTenant.PATH = '/tenant';
+addTenant.PATH = '/tenant/addTenant';

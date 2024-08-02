@@ -28,4 +28,4 @@ export function deleteTenant(http: HttpClient, rootUrl: string, params: DeleteTe
   );
 }
 
-deleteTenant.PATH = '/tenant/{id}';
+deleteTenant.PATH = '/tenant/deleteTenant/{id}';

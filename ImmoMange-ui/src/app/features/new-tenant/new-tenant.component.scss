@@ -1,0 +1,68 @@
+mat-form-field{
+  display: block;
+}
+
+.new-Property{
+  width: 800px;
+  margin: auto;
+}
+.addProperty{
+  margin-bottom: 15px;
+}
+.add-button {
+  margin-left: auto;
+  background-color: #4CAF50;
+  color: white;
+  margin-bottom: 15px;
+}
+
+.button-container {
+  display: flex;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.equipment-group {
+  display: flex;
+  margin-bottom: 10px;
+  margin-left: auto;
+}
+
+.equipment-field {
+  flex: 1;
+}
+.hint {
+  position: absolute;
+  left: 5px;
+  right: auto;
+  bottom: 0px;
+  font-size: 14px;
+  line-height: 14px;
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
+  color: grey;
+}
+
+.example-tel-input-container {
+  display: flex;
+}
+
+.example-tel-input-element {
+  border: none;
+  background: none;
+  padding: 0;
+  outline: none;
+  font: inherit;
+  text-align: center;
+  color: currentcolor;
+}
+
+.example-tel-input-spacer {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+:host.example-floating .example-tel-input-spacer {
+  opacity: 1;
+}

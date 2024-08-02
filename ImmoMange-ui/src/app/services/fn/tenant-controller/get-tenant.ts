@@ -6,13 +6,13 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { BaseResponseDtoTenantDto } from '../../models/base-response-dto-tenant-dto';
+import { BaseResponseDtoTenantResponseDto } from '../../models/base-response-dto-tenant-response-dto';
 
 export interface GetTenant$Params {
   id: number;
 }
 
-export function getTenant(http: HttpClient, rootUrl: string, params: GetTenant$Params, context?: HttpContext): Observable<StrictHttpResponse<BaseResponseDtoTenantDto>> {
+export function getTenant(http: HttpClient, rootUrl: string, params: GetTenant$Params, context?: HttpContext): Observable<StrictHttpResponse<BaseResponseDtoTenantResponseDto>> {
   const rb = new RequestBuilder(rootUrl, getTenant.PATH, 'get');
   if (params) {
     rb.path('id', params.id, {});
@@ -23,9 +23,9 @@ export function getTenant(http: HttpClient, rootUrl: string, params: GetTenant$P
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<BaseResponseDtoTenantDto>;
+      return r as StrictHttpResponse<BaseResponseDtoTenantResponseDto>;
     })
   );
 }
 
-getTenant.PATH = '/tenant/{id}';
+getTenant.PATH = '/tenant/getTenant/id';

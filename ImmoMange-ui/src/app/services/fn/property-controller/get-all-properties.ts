@@ -13,6 +13,8 @@ export interface GetAllProperties$Params {
 
 export function getAllProperties(http: HttpClient, rootUrl: string, params?: GetAllProperties$Params, context?: HttpContext): Observable<StrictHttpResponse<BaseResponseDtoListPropertyResponseDto>> {
   const rb = new RequestBuilder(rootUrl, getAllProperties.PATH, 'get');
+  if (params) {
+  }
 
   return http.request(
     rb.build({ responseType: 'json', accept: '*/*', context })

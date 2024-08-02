@@ -56,11 +56,10 @@ export class PropertyComponent implements OnInit {
   }
 
   UpdateProperty(element: any): void {
-    // Your update logic here
+
   }
 
   DeleteProperty(element: any): void {
-    // Your delete logic here
   }
 
   ViewProperty(element: any): void {

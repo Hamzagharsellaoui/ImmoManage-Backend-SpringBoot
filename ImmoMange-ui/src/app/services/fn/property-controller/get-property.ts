@@ -12,7 +12,7 @@ export interface GetProperty$Params {
   id: number;
 }
 
-export function getProperty(http: HttpClient, rootUrl: string, params: GetProperty$Params, context?: HttpContext): Observable<StrictHttpResponse<BaseResponseDtoPropertyResponseDto>> {
+export function getProperty(http: HttpClient, rootUrl: string, params: GetProperty$Params, context?: HttpContext | undefined): Observable<StrictHttpResponse<BaseResponseDtoPropertyResponseDto>> {
   const rb = new RequestBuilder(rootUrl, getProperty.PATH, 'get');
   if (params) {
     rb.path('id', params.id, {});

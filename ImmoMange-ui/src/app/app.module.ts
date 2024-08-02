@@ -33,6 +33,13 @@ import { UserComponent } from './appUser/user.component';
 import {HttpTokenInterceptor} from "./interceptors/app-http.interceptor";
 import { ViewPropertieComponent } from './features/view-propertie/view-propertie.component';
 import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
+import { NewTenantComponent } from './features/new-tenant/new-tenant.component';
+import { AddTenantMessageComponent } from './features/add-tenant-message/add-tenant-message.component';
+import {MatSelectModule} from "@angular/material/select";
+import { ViewTenantComponent } from './features/view-tenant/view-tenant.component';
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import { UpdateTenantComponent } from './features/update-tenant/update-tenant.component';
+import {MatGridListModule} from "@angular/material/grid-list";
 
 
 
@@ -51,6 +58,11 @@ import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
     AddPropertyMessageComponent,
     UserComponent,
     ViewPropertieComponent,
+    NewTenantComponent,
+    AddTenantMessageComponent,
+    ViewTenantComponent,
+    UpdateTenantComponent,
+
   ],
     imports: [
         BrowserModule,
@@ -73,7 +85,10 @@ import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
         MatTooltipModule,
         MatInputModule,
         MatDialogModule,
-        MatLineModule
+        MatLineModule,
+        MatSelectModule,
+        MatButtonToggleModule,
+        MatGridListModule,
     ],
   providers: [
     JwtHelperService,

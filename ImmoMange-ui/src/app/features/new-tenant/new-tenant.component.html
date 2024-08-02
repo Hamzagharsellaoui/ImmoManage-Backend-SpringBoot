@@ -1,0 +1,62 @@
+<h2 mat-dialog-title>New Tenant</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="addTenantForm" class="new-tenant">
+    <mat-form-field appearance="outline">
+      <mat-label>CIN</mat-label>
+      <input matInput formControlName="cin">
+      <mat-error *ngIf="addTenantForm.get('cin')?.hasError('required') && addTenantForm.get('cin')?.touched">
+        CIN is required.
+      </mat-error>
+      <mat-error *ngIf="addTenantForm.get('cin')?.hasError('pattern') && addTenantForm.get('cin')?.touched">
+        CIN must be exactly 8 digits.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+      <mat-error *ngIf="addTenantForm.get('name')?.hasError('required') && addTenantForm.get('name')?.touched">
+        Name is required.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email">
+      <mat-error *ngIf="addTenantForm.get('email')?.hasError('required') && addTenantForm.get('email')?.touched">
+        Email is required.
+      </mat-error>
+      <mat-error *ngIf="addTenantForm.get('email')?.hasError('email') && addTenantForm.get('email')?.touched">
+        Enter a valid email.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Phone Number</mat-label>
+      <input matInput formControlName="phoneNumber">
+      <mat-error *ngIf="addTenantForm.get('phoneNumber')?.hasError('required') && addTenantForm.get('phoneNumber')?.touched">
+        Phone Number is required.
+      </mat-error>
+      <mat-error *ngIf="addTenantForm.get('phoneNumber')?.hasError('pattern') && addTenantForm.get('phoneNumber')?.touched">
+        Phone Number must be exactly 8 digits.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Property</mat-label>
+      <mat-select formControlName="propertyAddress" (selectionChange)="onAddressSelect($event.value)">
+        <mat-option *ngFor="let entry of availableProperties | keyvalue" [value]="entry.value">
+          {{ entry.value }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="addTenantForm.get('propertyAddress')?.hasError('required') && addTenantForm.get('propertyAddress')?.touched">
+        Property is required.
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button color="primary" (click)="addTenant('400ms', '400ms')" [disabled]="!addTenantForm.valid" [mat-dialog-close]="true" cdkFocusInitial>Add Tenant</button>
+</mat-dialog-actions>

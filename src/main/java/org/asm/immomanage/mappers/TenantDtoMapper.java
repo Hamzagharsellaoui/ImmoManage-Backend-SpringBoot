@@ -43,6 +43,7 @@ public class TenantDtoMapper {
         return TenantResponseDto.builder()
                 .id(tenant.getId())
                 .cin(tenant.getCin())
+                .actualPropertyAddress(tenant.getAddress())
                 .name(tenant.getName())
                 .email(tenant.getEmail())
                 .phoneNumber(tenant.getPhoneNumber())

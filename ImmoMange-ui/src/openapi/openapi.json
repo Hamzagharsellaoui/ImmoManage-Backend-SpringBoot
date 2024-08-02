@@ -275,26 +275,6 @@
         }
       }
     },
-    "/tenant": {
-      "get": {
-        "tags": [
-          "tenant-controller"
-        ],
-        "operationId": "getAllTenants",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/BaseResponseDtoListTenantResponseDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/tenant/getTenant/{id}": {
       "get": {
         "tags": [
@@ -319,6 +299,26 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/BaseResponseDtoTenantResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tenant/getAllTenants": {
+      "get": {
+        "tags": [
+          "tenant-controller"
+        ],
+        "operationId": "getAllTenants",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseResponseDtoListTenantResponseDto"
                 }
               }
             }
@@ -515,6 +515,9 @@
           "actualPropertyId": {
             "type": "integer",
             "format": "int64"
+          },
+          "actualPropertyAddress": {
+            "type": "string"
           },
           "propertyIds": {
             "uniqueItems": true,
