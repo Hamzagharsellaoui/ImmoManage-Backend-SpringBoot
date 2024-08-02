@@ -16,5 +16,6 @@ public class TenantResponseDto {
     private String actualPropertyAddress;
     private Set<Long> propertyIds;
     private long managerId;
+    private String managerName;
 }
 

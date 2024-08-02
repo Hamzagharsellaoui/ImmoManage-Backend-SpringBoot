@@ -16,7 +16,7 @@ import {UpdateTenantComponent} from "../update-tenant/update-tenant.component";
 })
 export class TenantComponent implements OnInit{
   public dataSource: MatTableDataSource<any>;
-  public displayedColumns: string[] = ['cin', 'name', 'email', 'phoneNumber','address', 'managerID','update', 'delete','view'];
+  public displayedColumns: string[] = ['cin', 'name', 'email', 'phoneNumber','address', 'managerName','update', 'delete','view'];
   private tenants: any[] = [];
   private tenantIdCin:Map<string, number> = new Map();
 
@@ -37,7 +37,7 @@ export class TenantComponent implements OnInit{
             email: tenant.email,
             phoneNumber: tenant.phoneNumber,
             address: tenant.actualPropertyAddress,
-            managerID: tenant.managerID
+            managerName: tenant.managerName
           }));
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;

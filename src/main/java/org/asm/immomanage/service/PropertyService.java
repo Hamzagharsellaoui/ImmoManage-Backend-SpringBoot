@@ -55,7 +55,7 @@ public class PropertyService implements IPropertyService {
         property.setAddress(propertyRequestDto.address());
         property.setStatus(Optional.ofNullable(propertyRequestDto.status()).orElse(Property.Status.AVAILABLE));
 
-        Set<Tenant> updatedTenants = propertyDtoMapper.cinsToTenants(propertyRequestDto.cinTenants());
+        Set<Tenant> updatedTenants = propertyDtoMapper.IdsToTenants(propertyRequestDto.tenantsIDS());
         for (Tenant tenant : updatedTenants) {
             property.addTenant(tenant);
             tenant.addProperty(property);

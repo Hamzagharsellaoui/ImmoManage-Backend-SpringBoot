@@ -8,11 +8,13 @@ import org.asm.immomanage.dto.propertyDto.PropertyResponseDto;
 import org.asm.immomanage.models.*;
 
 import org.asm.immomanage.repository.TenantRepository;
+import org.asm.immomanage.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 @Data
 @Service
@@ -22,6 +24,7 @@ public class PropertyDtoMapper {
     private final UserDetailsService userDetailsService;
     private final PropertyEquipmentDtoMapper propertyEquipmentDtoMapper;
     private final PropertyImagesDtoMapper propertyImagesDtoMapper;
+    private final UserRepository userRepository;
 
     public Property toProperty(PropertyRequestDto propertyRequestDto) {
 
@@ -30,8 +33,8 @@ public class PropertyDtoMapper {
                 .description(propertyRequestDto.description())
                 .address(propertyRequestDto.address())
                 .status(Optional.ofNullable(propertyRequestDto.status()).orElse(Property.Status.AVAILABLE))
-                .tenants(cinsToTenants(propertyRequestDto.cinTenants()))
-                .manager((User) userDetailsService.loadUserByUsername(propertyRequestDto.managerEmail()))
+                .tenants(IdsToTenants(propertyRequestDto.tenantsIDS()))
+                .manager(userRepository.findById(propertyRequestDto.managerID()).get())
                 .propertyEquipments(new ArrayList<>())
                 .propertyImages(new ArrayList<>())
                 .build();
@@ -57,24 +60,25 @@ public class PropertyDtoMapper {
                 .description(property.getDescription())
                 .address(property.getAddress())
                 .status(property.getStatus())
-                .propertyEquipmentDto(PropertyEquipmentDtoMapper.toPropertyEquipmentDtos(property.getPropertyEquipments()))
-                .propertyImages(propertyImagesDtoMapper.toPropertyImagesDtos(property.getPropertyImages()))
-                .cinTenants(tenatsToCins(property.getTenants()))
-                .managerEmail(property.getManager().getEmail())
+                .propertyEquipments(PropertyEquipmentDtoMapper.toPropertyEquipmentDtos(property.getPropertyEquipments())
+                        .stream().map(equipmentDto->equipmentDto.equipmentName()).collect(Collectors.toSet()))
+                .propertyImages(propertyImagesDtoMapper.toPropertyImagesDtos(property.getPropertyImages()).stream().map(image->image.imageUrl()).collect(Collectors.toSet()))
+                .tenantsIDS(tenantsToIds(property.getTenants()))
+                .managerID(property.getManager().getId())
                 .build();
     }
-    public Set<Tenant> cinsToTenants(Set<String> listCin) {
-        if(listCin==null || listCin.isEmpty()){
+    public Set<Tenant> IdsToTenants(Set<Long> listIDs) {
+        if(listIDs==null || listIDs.isEmpty()){
             return Collections.emptySet();
         }
-        return listCin.stream().map(cin->tenantRepository.findByCin(cin)
-                .orElseThrow(() -> new NoSuchElementException("Tenant not found with CIN: " + cin)))
+        return listIDs.stream().map(id->tenantRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Tenant not found with CIN: " + tenantRepository.findById(id).get().getCin())))
                 .collect(Collectors.toSet());
     }
-    public   Set<String> tenatsToCins(Set<Tenant> tenantList) {
+    public   Set<Long> tenantsToIds(Set<Tenant> tenantList) {
         if(tenantList==null || tenantList.isEmpty()){
             return Collections.emptySet();
         }
-        return tenantList.stream().map(Tenant::getCin).collect(Collectors.toSet());
+        return tenantList.stream().map(Tenant::getId).collect(Collectors.toSet());
     }
 }

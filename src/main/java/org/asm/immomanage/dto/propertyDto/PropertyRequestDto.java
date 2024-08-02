@@ -17,8 +17,8 @@ public record PropertyRequestDto(
         Property.Status status,
         List<PropertyEquipmentDto> propertyEquipmentDto,
         List<PropertyImageDto> propertyImages,
-        Set<String> cinTenants,
-        String  managerEmail
+        Set<Long> tenantsIDS,
+        Long managerID
 ) {
 
 }

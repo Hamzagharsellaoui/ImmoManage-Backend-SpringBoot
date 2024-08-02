@@ -21,21 +21,25 @@
         <span class="detail-value">{{ data?.status }}</span>
       </div>
       <div class="detail-item">
-        <span class="detail-label">Manager:</span>
-        <span class="detail-value">{{ data?.managerEmail }}</span>
+        <span class="detail-label">Manager Name:</span>
+        <span class="detail-value" style="font-weight:bold ">{{ managerName }}</span>
       </div>
       <div class="detail-item">
         <span class="detail-label">Equipments:</span>
-        <ul class="styled-list">
-          <li *ngFor="let equipment of data?.propertyEquipmentDto">{{ equipment.equipmentName }}</li>
-        </ul>
+        <div class="styled-list">
+          <div *ngFor="let equipment of data?.propertyEquipments" class="styled-list-item">
+            <span>{{ equipment }}</span>
+          </div>
+        </div>
       </div>
       <div class="detail-item">
         <span class="detail-label">Tenants:</span>
-        <p *ngIf="(data?.cinTenants?.length || 0) === 0">No tenants assigned</p>
-        <ul class="styled-list">
-          <li *ngFor="let tenant of data?.cinTenants">{{ tenant }}</li>
-        </ul>
+        <p *ngIf="(data?.tenantsIDS?.length || 0) === 0">No tenants assigned</p>
+        <div class="styled-list">
+          <div *ngFor="let tenant of data?.tenantsIDS" class="styled-list-item">
+            <span>{{ tenant }}</span>
+          </div>
+        </div>
       </div>
     </div>
   </mat-card-content>

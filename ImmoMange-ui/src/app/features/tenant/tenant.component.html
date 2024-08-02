@@ -1,12 +1,12 @@
 <div class="container">
-  <mat-card>
+  <mat-card class="tenant-card">
     <mat-card-header>
-      <mat-card-title class="container">Tenants</mat-card-title>
-      <button mat-button (click)="openDialog('400ms', '400ms')" class="add-button">Add Tenant</button>
+      <mat-card-title>Tenants</mat-card-title>
+      <button mat-raised-button color="primary" (click)="openDialog('400ms', '400ms')" class="add-button">Add Tenant</button>
     </mat-card-header>
     <mat-divider></mat-divider>
     <mat-card-content>
-      <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8 stylish-table">
         <ng-container matColumnDef="cin">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>CIN</th>
           <td mat-cell *matCellDef="let element">{{element.cin}}</td>
@@ -32,9 +32,9 @@
           <td mat-cell *matCellDef="let element">{{element.address}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="managerID">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>ManagerID</th>
-          <td mat-cell *matCellDef="let element">{{element.managerID}}</td>
+        <ng-container matColumnDef="managerName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Manager Name</th>
+          <td mat-cell *matCellDef="let element">{{element.managerName}}</td>
         </ng-container>
 
         <ng-container matColumnDef="update">

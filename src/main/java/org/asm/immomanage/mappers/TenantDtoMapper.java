@@ -49,6 +49,7 @@ public class TenantDtoMapper {
                 .phoneNumber(tenant.getPhoneNumber())
                 .actualPropertyId(tenant.getIdActualProperty())
                 .managerId(tenant.getManager().getId())
+                .managerName(userRepository.findById(tenant.getManager().getId()).get().getName())
                 .propertyIds(tenant.getProperties().stream().map(Property::getId).collect(Collectors.toSet()))
                 .build();
     }

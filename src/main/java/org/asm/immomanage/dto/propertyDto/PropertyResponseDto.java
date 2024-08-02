@@ -15,10 +15,10 @@ public record PropertyResponseDto(
         String description,
         String address,
         Property.Status status,
-        List<PropertyEquipmentDto> propertyEquipmentDto,
-        List<PropertyImageDto> propertyImages,
-        Set<String> cinTenants,
-        String managerEmail
+        Set<String> propertyEquipments,
+        Set<String> propertyImages,
+        Set<Long> tenantsIDS,
+        Long managerID
         ){}
 
 
