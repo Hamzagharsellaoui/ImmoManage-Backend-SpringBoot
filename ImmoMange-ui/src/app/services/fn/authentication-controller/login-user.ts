@@ -1,5 +1,4 @@
-/* tslint:disable */
-/* eslint-disable */
+
 import { HttpClient, HttpContext, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -29,4 +28,4 @@ export function loginUser(http: HttpClient, rootUrl: string, params: LoginUser$P
   );
 }
 
-loginUser.PATH = '/User/login';
+loginUser.PATH = '/Auth/login';

@@ -10,6 +10,8 @@ import { TokenService } from '../../services/token/token.service';
 import { map } from 'rxjs/operators';
 import { AddTenantMessageComponent } from '../add-tenant-message/add-tenant-message.component';
 import { MatDialog } from '@angular/material/dialog';
+import {UserService} from "../../services/services/UserService";
+import {UserInfoRequest} from "../../services/models/user-info-request";
 
 @Component({
   selector: 'app-new-tenant',
@@ -29,7 +31,7 @@ export class NewTenantComponent implements OnInit {
     private router: Router,
     private propertyService: PropertyService,
     private tokenService: TokenService,
-    private authService: AuthenticationService,
+    private userService: UserService,
     private dialog: MatDialog
   ) {}
   ngOnInit() {
@@ -119,9 +121,9 @@ export class NewTenantComponent implements OnInit {
     });
   }
   getCurrentUserID(): Observable<number> {
-    const email = this.tokenService.getUserIdFromToken();
-    if (email) {
-      return this.authService.getUserInfo(email).pipe(
+    const id:number | null = this.tokenService.getUserIdFromToken();
+    if (id) {
+      return this.userService.getUserInfo(id).pipe(
         map(res => {
           if (res && res.data) {
             console.log('Current User Info:', res.data);

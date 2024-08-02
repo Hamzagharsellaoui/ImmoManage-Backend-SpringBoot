@@ -1,0 +1,32 @@
+<h1 mat-dialog-title>Edit Profile</h1>
+<div mat-dialog-content>
+  <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="Name" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email" required>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>password</mat-label>
+      <input matInput formControlName="password" required>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Password Verification</mat-label>
+      <input matInput formControlName="Password Verification" required>
+    </mat-form-field>
+
+    <div class="image-upload">
+      <label for="fileInput">Profile Image</label>
+      <input type="file" id="fileInput" (change)="onFileSelected($event)">
+      <img *ngIf="selectedImage" [src]="selectedImage" alt="Selected Image" class="preview-image">
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button [disabled]="!editProfileForm.valid" type="submit">Save</button>
+</div>

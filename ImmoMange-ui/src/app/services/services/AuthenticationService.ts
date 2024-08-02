@@ -12,8 +12,6 @@ import { BaseResponseDtoString } from '../models/base-response-dto-string';
 import {loginUser, LoginUser$Params} from '../fn/authentication-controller/login-user';
 import {registerUser, RegisterUser$Params} from '../fn/authentication-controller/register-user';
 import {TokenService} from "../token/token.service";
-import {BaseResponseDtoUserInfoResponse} from "../models/base-response-dto-user-info-response";
-import {getUserInfo, GetUserInfoParams} from "../fn/authentication-controller/get-user-info";
 
 
 @Injectable({ providedIn: 'root' })
@@ -55,14 +53,6 @@ export class AuthenticationService extends BaseService {
     localStorage.clear();
   }
 
-  getUserInfo$Response(params: GetUserInfoParams, context?: HttpContext): Observable<StrictHttpResponse<BaseResponseDtoUserInfoResponse>> {
-    return getUserInfo(this.http, this.rootUrl, params, context);
-  }
-  getUserInfo(params: GetUserInfoParams, context?: HttpContext): Observable<BaseResponseDtoUserInfoResponse> {
-    return this.getUserInfo$Response(params, context).pipe(
-      map((r: StrictHttpResponse<BaseResponseDtoUserInfoResponse>): BaseResponseDtoUserInfoResponse => r.body)
-    );
-  }
 
 }
 

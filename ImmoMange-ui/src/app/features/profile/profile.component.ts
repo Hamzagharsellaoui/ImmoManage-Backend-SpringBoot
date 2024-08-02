@@ -1,8 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { TokenService } from '../../services/token/token.service';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../../services/services/AuthenticationService';
-import { GetUserInfoParams } from '../../services/fn/authentication-controller/get-user-info';
+
+import {UserService} from "../../services/services/UserService";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
+import {MatDialog} from "@angular/material/dialog";
+import {MatTableDataSource} from "@angular/material/table";
+import {UpdateProfileComponent} from "../update-profile/update-profile.component";
 
 @Component({
   selector: 'app-profile',
@@ -10,24 +15,31 @@ import { GetUserInfoParams } from '../../services/fn/authentication-controller/g
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+  public dataSource: MatTableDataSource<any>;
   user: any;
   errorMessage: Array<string> = [];
-  currentUserId?: number;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private tokenService: TokenService,
     private router: Router,
-    private authService: AuthenticationService
-  ) {}
+    private userService: UserService,
+    private dialog: MatDialog
+  ) {
+    this.dataSource = new MatTableDataSource();
+
+  }
 
   ngOnInit() {
     this.getCurrentUserID();
+
   }
 
   getCurrentUserID() {
-    const email = this.tokenService.getUserIdFromToken();
-    if (email) {
-      this.authService.getUserInfo(email).subscribe({
+    const id = this.tokenService.getUserIdFromToken();
+    if (id) {
+      this.userService.getUserInfo(id).subscribe({
         next: (res) => {
           if (res && res.data) {
             this.user = res.data;
@@ -51,11 +63,26 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  formatName(name: string): string {
-    const words = name.split(' ');
-    const firstWord = words[0].charAt(0).toUpperCase() + words[0].slice(1).toLowerCase();
-    const restOfWords = words.slice(1).map(word => word.toUpperCase()).join(' ');
-    return `${firstWord} ${restOfWords}`;
+  formatName(fullName: string | null): string {
+    if (!fullName) {
+      return '';
+    }
+    const parts = fullName.split(' ');
+    if (parts.length < 2) {
+      return fullName;
+    }
+    return `${parts[0]} ${parts[1]}`;
   }
 
+  openEditProfileDialog(enterAnimationDuration: string, exitAnimationDuration: string,user:any): void {
+    const dialogRef = this.dialog.open(UpdateProfileComponent, {
+      width: '800px',
+      data: {
+        name: this.user.name,
+        email: this.user.email,
+        phoneNumber: this.user.phoneNumber,
+        profileImage: this.user.profileImage
+      }
+    });
+  }
 }

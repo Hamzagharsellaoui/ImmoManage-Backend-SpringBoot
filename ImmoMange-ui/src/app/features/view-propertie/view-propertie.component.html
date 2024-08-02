@@ -1,29 +1,47 @@
-<h2 mat-dialog-title>Property Details</h2>
-<mat-dialog-content class="mat-typography">
-  <p><strong>Address:</strong> {{data.address}}</p>
-  <p><strong>Description:</strong> {{data.description}}</p>
-  <p><strong>Rent Price:</strong> {{data.rentPrice}}</p>
-  <p><strong>Status:</strong> {{data.status}}</p>
-  <p><strong>Manager:</strong> {{data.managerEmail}}</p>
-
-  <p><strong>Equipments:</strong></p>
-  <ul>
-    <li *ngFor="let equipment of data.propertyEquipments">{{equipment.equipmentName}}</li>
-  </ul>
-
-  <p><strong>Images:</strong></p>
-  <ul>
-    <li *ngFor="let image of data.propertyImages">{{image.imageUrl}}</li>
-  </ul>
-
-  <p><strong>Tenants:</strong></p>
-  <ul>
-    <li *ngFor="let tenant of data.cinTenants">{{tenant}}</li>
-  </ul>
-</mat-dialog-content>
-
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button *ngIf="data.status === 'AVAILABLE'" mat-button color="primary" (click)="onRent()">Rent</button>
-  <button *ngIf="data.status === 'OCCUPIED'" mat-button color="primary" (click)="viewTenant()">Actual Tenant</button>
-</mat-dialog-actions>
+<mat-card class="property-details-card">
+  <mat-card-header>
+    <mat-card-title>Property Details</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="details-container">
+      <div class="detail-item">
+        <span class="detail-label">Address:</span>
+        <span class="detail-value">{{ data?.address }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Description:</span>
+        <span class="detail-value">{{ data?.description }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Rent Price:</span>
+        <span class="detail-value">{{ data?.rentPrice | currency }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Status:</span>
+        <span class="detail-value">{{ data?.status }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Manager:</span>
+        <span class="detail-value">{{ data?.managerEmail }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Equipments:</span>
+        <ul class="styled-list">
+          <li *ngFor="let equipment of data?.propertyEquipmentDto">{{ equipment.equipmentName }}</li>
+        </ul>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Tenants:</span>
+        <p *ngIf="(data?.cinTenants?.length || 0) === 0">No tenants assigned</p>
+        <ul class="styled-list">
+          <li *ngFor="let tenant of data?.cinTenants">{{ tenant }}</li>
+        </ul>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" mat-dialog-close>Close</button>
+    <button *ngIf="data?.status === 'AVAILABLE'" mat-raised-button color="accent" (click)="onRent()">Rent</button>
+    <button *ngIf="data?.status === 'OCCUPIED'" mat-raised-button color="accent" (click)="viewTenant()">Actual Tenant</button>
+  </mat-card-actions>
+</mat-card>

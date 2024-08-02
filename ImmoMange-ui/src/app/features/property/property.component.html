@@ -31,7 +31,7 @@
         <ng-container matColumnDef="update">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button matTooltip="Update Property" color="primary" (click)="UpdateProperty(element)">
+            <button mat-icon-button matTooltip="Update Property" color="primary" (click)="openUpdateDialog('400ms','400ms',element)">
               <mat-icon>edit</mat-icon>
             </button>
           </td>
@@ -49,7 +49,7 @@
         <ng-container matColumnDef="view">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button matTooltip="View Property" color="accent" (click)="ViewProperty(element)">
+            <button mat-icon-button matTooltip="View Property" color="accent" (click)="openViewDialog('400ms','400ms',element.address)">
               <mat-icon>visibility</mat-icon>
             </button>
           </td>

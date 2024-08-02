@@ -1,21 +1,35 @@
-import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {PropertyService} from "../../services/services/propertyService";
 
 @Component({
-  selector: 'app-view-propertie',
+  selector: 'app-view-property',
   templateUrl: './view-propertie.component.html',
   styleUrls: ['./view-propertie.component.scss']
 })
-export class ViewPropertieComponent {
+export class ViewPropertieComponent implements OnInit {
+  property: any;
+
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<ViewPropertieComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
-  onRent(): void {
-    console.log('Rent property:', this.data);
+    private propertyService: PropertyService,
+  ) {
+    this.data = data.property;
+
+  }
+  ngOnInit(): void {
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
+
+  onRent() {
+
   }
 
   viewTenant() {
-    console.log('Actual Tenant:', this.data);
+
   }
 }

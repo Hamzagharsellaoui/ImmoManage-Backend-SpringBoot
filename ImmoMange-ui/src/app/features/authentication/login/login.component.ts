@@ -54,6 +54,6 @@ export class LoginComponent implements OnInit {
     });
   }
   registration(): void {
-    this.router.navigate(['user/register']).then();
+    this.router.navigate(['/Auth/register']).then();
   }
 }

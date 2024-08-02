@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import {JwtHelperService} from '@auth0/angular-jwt';
-import {jwtDecode} from "jwt-decode";
-import {GetUserInfoParams} from "../fn/authentication-controller/get-user-info";
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +15,7 @@ export class TokenService {
     return localStorage.getItem('token') as string;
   }
 
-
-  isTokenValid() {
+  isTokenValid(): boolean {
     const token = this.token;
     if (!token) {
       return false;
@@ -30,9 +28,11 @@ export class TokenService {
     }
     return true;
   }
-  isTokenNotValid() {
+
+  isTokenNotValid(): boolean {
     return !this.isTokenValid();
   }
+
   decodeToken(token: string): any {
     try {
       return jwtDecode(token);
@@ -41,9 +41,16 @@ export class TokenService {
       return null;
     }
   }
-  getUserIdFromToken(): GetUserInfoParams {
-      const token = this.token;
-      const decodedToken = this.decodeToken(token);
-      return decodedToken?.sub;
-    }
+
+  getUserIdFromToken(): number | null {
+    const token = this.token;
+    const decodedToken = this.decodeToken(token);
+    return decodedToken?.userId || null;
+  }
+
+  getUserNameFromToken(): string | null {
+    const token = this.token;
+    const decodedToken = this.decodeToken(token);
+    return decodedToken?.name || null; // Updated to get userName
+  }
 }

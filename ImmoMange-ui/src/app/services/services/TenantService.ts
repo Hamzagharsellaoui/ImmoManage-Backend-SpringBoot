@@ -16,12 +16,11 @@ import { BaseResponseDtoString } from '../models/base-response-dto-string';
 import { BaseResponseDtoTenantResponseDto } from '../models/base-response-dto-tenant-response-dto';
 import { deleteTenant } from '../fn/tenant-controller/delete-tenant';
 import { DeleteTenant$Params } from '../fn/tenant-controller/delete-tenant';
-import { getAllTenants } from '../fn/tenant-controller/get-all-tenants';
-import { GetAllTenants$Params } from '../fn/tenant-controller/get-all-tenants';
 import { getTenant } from '../fn/tenant-controller/get-tenant';
 import { GetTenant$Params } from '../fn/tenant-controller/get-tenant';
 import { updateTenant } from '../fn/tenant-controller/update-tenant';
 import { UpdateTenant$Params } from '../fn/tenant-controller/update-tenant';
+import {getAllTenants, GetAllTenants$Params} from "../fn/tenant-controller/get-all-tenants";
 
 @Injectable({ providedIn: 'root' })
 export class TenantService extends BaseService {

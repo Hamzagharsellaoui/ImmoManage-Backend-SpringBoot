@@ -58,6 +58,6 @@ export class RegisterComponent implements OnInit {
   }
 
   signIn(): void {
-    this.router.navigateByUrl("/user/login");
+    this.router.navigateByUrl("/Auth/login");
   }
 }

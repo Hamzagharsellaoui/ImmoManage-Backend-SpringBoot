@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {PropertyService} from "../../services/services/propertyService";
 
 @Component({
   selector: 'app-view-tenant',
@@ -13,7 +12,6 @@ export class ViewTenantComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<ViewTenantComponent>,
-    private propertyService: PropertyService,
   ) {
     this.tenant = data.tenant;
     console.log(this.tenant);
@@ -21,12 +19,6 @@ export class ViewTenantComponent implements OnInit {
   }
   ngOnInit(): void {
 
-  // this.propertyService.getProperty(this.tenant.propertyIds).subscribe({
-  //     next: (res) => {
-  //       this.tenant.add(res.data?.address);
-  //       console.log(res.data?.address);
-  //     }
-  //   })
   }
 
   closeDialog(): void {

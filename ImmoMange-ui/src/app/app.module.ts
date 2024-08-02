@@ -40,6 +40,7 @@ import { ViewTenantComponent } from './features/view-tenant/view-tenant.componen
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import { UpdateTenantComponent } from './features/update-tenant/update-tenant.component';
 import {MatGridListModule} from "@angular/material/grid-list";
+import { UpdateProfileComponent } from './features/update-profile/update-profile.component';
 
 
 
@@ -62,6 +63,8 @@ import {MatGridListModule} from "@angular/material/grid-list";
     AddTenantMessageComponent,
     ViewTenantComponent,
     UpdateTenantComponent,
+    UpdateProfileComponent
+
 
   ],
     imports: [

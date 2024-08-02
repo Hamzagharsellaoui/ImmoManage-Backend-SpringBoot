@@ -1,4 +1,4 @@
 
 export interface UserInfoRequest {
-  email?:string;
+  id:number;
 }

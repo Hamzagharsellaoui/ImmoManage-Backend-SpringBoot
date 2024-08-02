@@ -14,16 +14,20 @@ import {UserComponent} from "./appUser/user.component";
 import {authGuard} from "./services/guards/authentication.guard";
 import {NewTenantComponent} from "./features/new-tenant/new-tenant.component";
 import {AddTenantMessageComponent} from "./features/add-tenant-message/add-tenant-message.component";
+import {UpdateTenantComponent} from "./features/update-tenant/update-tenant.component";
 
 const routes: Routes = [
-  { path: "", redirectTo: "/user/login", pathMatch: "full" },
-  { path: "user/login", component: LoginComponent },
-  { path: "user/register", component: RegisterComponent },
+  { path: "", redirectTo: "/Auth/login", pathMatch: "full" },
+  { path: "Auth/login", component: LoginComponent },
+  { path: "Auth/register", component: RegisterComponent },
     { path: "AppUser", component: UserComponent, canActivate: [authGuard],
     children: [
       { path: "body", component: BodyComponent },
       { path: "home", component: HomeComponent, canActivate: [authGuard] },
-      { path: "profile", component: ProfileComponent, canActivate: [authGuard] },
+      { path: "profile", component: ProfileComponent, canActivate: [authGuard] ,
+        children:[
+          { path: "editProfile", component: UpdateTenantComponent , canActivate: [authGuard] },
+        ]},
       { path: "tenant", component: TenantComponent, canActivate: [authGuard],
         children: [
           { path: "newTenant", component: NewTenantComponent, canActivate: [authGuard] },

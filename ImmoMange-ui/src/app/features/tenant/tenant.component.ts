@@ -4,10 +4,9 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {TenantService} from "../../services/services/TenantService";
 import {MatDialog} from "@angular/material/dialog";
-import {NewTenantComponent} from "../new-tenant/new-tenant.component";
 import {ViewTenantComponent} from "../view-tenant/view-tenant.component";
+import {NewTenantComponent} from "../new-tenant/new-tenant.component";
 import {UpdateTenantComponent} from "../update-tenant/update-tenant.component";
-
 
 
 @Component({
@@ -73,8 +72,6 @@ export class TenantComponent implements OnInit{
       }
     });
   }
-
-
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string) {
     const dialogRef = this.dialog.open(NewTenantComponent, {
       width: '1000px',
@@ -103,6 +100,5 @@ export class TenantComponent implements OnInit{
     });
     dialogRef.afterClosed().subscribe(result => { });
   }
-
 
 }

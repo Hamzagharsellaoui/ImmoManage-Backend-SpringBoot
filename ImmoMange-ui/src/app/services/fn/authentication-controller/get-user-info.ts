@@ -8,15 +8,13 @@ import { BaseResponseDtoUserInfoResponse } from '../../models/base-response-dto-
 import {UserInfoRequest} from "../../models/user-info-request";
 
 export interface GetUserInfoParams {
-  email: UserInfoRequest;
+  id: number;
 }
 
-export function getUserInfo(http: HttpClient, rootUrl: string, params: GetUserInfoParams, context?: HttpContext): Observable<StrictHttpResponse<BaseResponseDtoUserInfoResponse>> {
+export function getUserInfo(http: HttpClient, rootUrl: string, params: number, context?: HttpContext): Observable<StrictHttpResponse<BaseResponseDtoUserInfoResponse>> {
   const rb = new RequestBuilder(rootUrl, getUserInfo.PATH, 'get');
-  console.log('Params:', params);
   if (params) {
-    rb.query('userInfoRequest',params, {});
-    console.log('Params:', params);
+    rb.path("id",params);
   }
 
   return http.request(
@@ -29,4 +27,4 @@ export function getUserInfo(http: HttpClient, rootUrl: string, params: GetUserIn
   );
 }
 
-getUserInfo.PATH = '/User/info';
+getUserInfo.PATH = '/User/info/{id}';

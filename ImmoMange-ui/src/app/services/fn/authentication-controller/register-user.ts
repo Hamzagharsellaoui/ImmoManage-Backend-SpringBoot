@@ -29,4 +29,4 @@ export function registerUser(http: HttpClient, rootUrl: string, params: Register
   );
 }
 
-registerUser.PATH = '/User/Register';
+registerUser.PATH = '/Auth/Register';
