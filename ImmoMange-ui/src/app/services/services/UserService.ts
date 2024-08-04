@@ -7,19 +7,20 @@ import {map} from "rxjs/operators";
 import {Injectable} from "@angular/core";
 import {BaseService} from "../base-service";
 import {ApiConfiguration} from "../api-configuration";
+import {TokenService} from "../token/token.service";
 
 
 
 @Injectable({ providedIn: 'root' })
 export class UserService extends BaseService {
-  constructor(config: ApiConfiguration, http: HttpClient) {
+  constructor(config: ApiConfiguration, http: HttpClient,private tokenService:TokenService) {
     super(config, http);
   }
+
 
   getUserInfo$Response(params: number, context?: HttpContext): Observable<StrictHttpResponse<BaseResponseDtoUserInfoResponse>> {
     return getUserInfo(this.http, this.rootUrl, params, context);
   }
-
   getUserInfo(params: number, context?: HttpContext): Observable<BaseResponseDtoUserInfoResponse> {
     return this.getUserInfo$Response(params, context).pipe(
       map((r: StrictHttpResponse<BaseResponseDtoUserInfoResponse>): BaseResponseDtoUserInfoResponse => r.body)

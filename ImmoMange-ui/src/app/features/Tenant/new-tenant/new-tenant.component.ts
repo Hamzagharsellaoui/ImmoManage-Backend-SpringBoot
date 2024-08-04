@@ -5,13 +5,11 @@ import { TenantService } from '../../../services/services/TenantService';
 import { TenantRequestDto } from '../../../services/models/tenant-request-dto';
 import { PropertyService } from '../../../services/services/propertyService';
 import { Observable, catchError, of } from 'rxjs';
-import { AuthenticationService } from '../../../services/services/AuthenticationService';
 import { TokenService } from '../../../services/token/token.service';
 import { map } from 'rxjs/operators';
 import { AddTenantMessageComponent } from '../../messages/add-tenant-message/add-tenant-message.component';
 import { MatDialog } from '@angular/material/dialog';
 import {UserService} from "../../../services/services/UserService";
-import {UserInfoRequest} from "../../../services/models/user-info-request";
 
 @Component({
   selector: 'app-new-tenant',
@@ -42,7 +40,6 @@ export class NewTenantComponent implements OnInit {
       phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
       propertyAddress: ['', [Validators.required]]
     });
-
     this.loadAvailableProperties();
     this.getCurrentUserID().subscribe({
       next: (userId) => {
@@ -78,7 +75,6 @@ export class NewTenantComponent implements OnInit {
       return;
     }
     const { propertyAddress, ...formValues } = this.addTenantForm.value;
-    console.log(this.addTenantForm.value);
     let newTenantRequest: TenantRequestDto = {
       ...formValues,
       managerId: this.currentUserId,

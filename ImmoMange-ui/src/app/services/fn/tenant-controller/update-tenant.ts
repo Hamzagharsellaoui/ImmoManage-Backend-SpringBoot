@@ -16,11 +16,11 @@ export interface UpdateTenant$Params {
 
 export function updateTenant(http: HttpClient, rootUrl: string, params: UpdateTenant$Params, context?: HttpContext): Observable<StrictHttpResponse<BaseResponseDtoTenantResponseDto>> {
   const rb = new RequestBuilder(rootUrl, updateTenant.PATH, 'put');
+  console.log(params)
   if (params) {
     rb.path('id', params.id, {});
     rb.body(params.body, 'application/json');
   }
-
   return http.request(
     rb.build({ responseType: 'json', accept: '*/*', context })
   ).pipe(
@@ -31,4 +31,4 @@ export function updateTenant(http: HttpClient, rootUrl: string, params: UpdateTe
   );
 }
 
-updateTenant.PATH = '/tenant/updateTenant/id';
+updateTenant.PATH = '/tenant/updateTenant/{id}';

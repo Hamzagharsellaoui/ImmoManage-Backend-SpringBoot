@@ -67,6 +67,7 @@ public class TenantService implements ITenantService {
             propertyRepository.save(propertyRepository.findById(tenant.getIdActualProperty()).get());
             tenant.setIdActualProperty(tenantRequestDto.getActualPropertyId());
             actualProperty.setStatus(Property.Status.OCCUPIED);
+            tenant.getProperties().add(actualProperty);
             propertyRepository.save(actualProperty);
         }
         tenant.addProperty(propertyRepository.findById(tenantRequestDto.getActualPropertyId()).orElseThrow(() -> new NoPropertiesFoundException("Property not found with id " + id)));

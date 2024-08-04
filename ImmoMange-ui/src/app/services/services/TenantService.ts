@@ -21,61 +21,59 @@ import { GetTenant$Params } from '../fn/tenant-controller/get-tenant';
 import { updateTenant } from '../fn/tenant-controller/update-tenant';
 import { UpdateTenant$Params } from '../fn/tenant-controller/update-tenant';
 import {getAllTenants, GetAllTenants$Params} from "../fn/tenant-controller/get-all-tenants";
+import {PropertyService} from "./propertyService";
 
 @Injectable({ providedIn: 'root' })
 export class TenantService extends BaseService {
-  constructor(config: ApiConfiguration, http: HttpClient) {
+  selectedPropertyId?: number;
+  errorMessage: Array<string> = [];
+  constructor(config: ApiConfiguration, http: HttpClient,private propertyService:PropertyService) {
     super(config, http);
   }
-
   updateTenant$Response(params: UpdateTenant$Params, context?: HttpContext): Observable<StrictHttpResponse<BaseResponseDtoTenantResponseDto>> {
     return updateTenant(this.http, this.rootUrl, params, context);
   }
-
   updateTenant(params: UpdateTenant$Params, context?: HttpContext): Observable<BaseResponseDtoTenantResponseDto> {
     return this.updateTenant$Response(params, context).pipe(
       map((r: StrictHttpResponse<BaseResponseDtoTenantResponseDto>): BaseResponseDtoTenantResponseDto => r.body)
     );
   }
-
   addTenant$Response(params: AddTenant$Params, context?: HttpContext): Observable<StrictHttpResponse<BaseResponseDtoTenantResponseDto>> {
     return addTenant(this.http, this.rootUrl, params, context);
   }
-
   addTenant(params: AddTenant$Params, context?: HttpContext): Observable<BaseResponseDtoTenantResponseDto> {
     return this.addTenant$Response(params, context).pipe(
       map((r: StrictHttpResponse<BaseResponseDtoTenantResponseDto>): BaseResponseDtoTenantResponseDto => r.body)
     );
   }
-
   getTenant$Response(params: GetTenant$Params, context?: HttpContext): Observable<StrictHttpResponse<BaseResponseDtoTenantResponseDto>> {
     return getTenant(this.http, this.rootUrl, params, context);
   }
-
   getTenant(params: GetTenant$Params, context?: HttpContext): Observable<BaseResponseDtoTenantResponseDto> {
     return this.getTenant$Response(params, context).pipe(
       map((r: StrictHttpResponse<BaseResponseDtoTenantResponseDto>): BaseResponseDtoTenantResponseDto => r.body)
     );
   }
-
   getAllTenants$Response(params?: GetAllTenants$Params, context?: HttpContext): Observable<StrictHttpResponse<BaseResponseDtoListTenantResponseDto>> {
     return getAllTenants(this.http, this.rootUrl, params, context);
   }
-
   getAllTenants(params?: GetAllTenants$Params, context?: HttpContext): Observable<BaseResponseDtoListTenantResponseDto> {
     return this.getAllTenants$Response(params, context).pipe(
       map((r: StrictHttpResponse<BaseResponseDtoListTenantResponseDto>): BaseResponseDtoListTenantResponseDto => r.body)
     );
   }
-
   deleteTenant$Response(params: DeleteTenant$Params, context?: HttpContext): Observable<StrictHttpResponse<BaseResponseDtoString>> {
     return deleteTenant(this.http, this.rootUrl, params, context);
   }
-
   deleteTenant(params: DeleteTenant$Params, context?: HttpContext): Observable<BaseResponseDtoString> {
     return this.deleteTenant$Response(params, context).pipe(
       map((r: StrictHttpResponse<BaseResponseDtoString>): BaseResponseDtoString => r.body)
     );
+  }
+  addErrorMessage(message: string): void {
+    if (!this.errorMessage.includes(message)) {
+      this.errorMessage.push(message);
+    }
   }
 
 }

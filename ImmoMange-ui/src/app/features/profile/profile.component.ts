@@ -1,13 +1,13 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import { TokenService } from '../../services/token/token.service';
+// profile.component.ts
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-
-import {UserService} from "../../services/services/UserService";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
-import {MatDialog} from "@angular/material/dialog";
-import {MatTableDataSource} from "@angular/material/table";
-import {UpdateProfileComponent} from "../update-profile/update-profile.component";
+import { UserService } from "../../services/services/UserService";
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { UpdateProfileComponent } from '../update-profile/update-profile.component';
+import {TokenService} from "../../services/token/token.service";
 
 @Component({
   selector: 'app-profile',
@@ -22,44 +22,27 @@ export class ProfileComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
-    private tokenService: TokenService,
     private router: Router,
     private userService: UserService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private tokenService: TokenService,
   ) {
     this.dataSource = new MatTableDataSource();
-
   }
 
-  ngOnInit() {
-    this.getCurrentUserID();
-
-  }
-
-  getCurrentUserID() {
-    const id = this.tokenService.getUserIdFromToken();
-    if (id) {
+  ngOnInit(): void {
+    let id = this.tokenService.getUserIdFromToken();
+    if(id){
       this.userService.getUserInfo(id).subscribe({
         next: (res) => {
-          if (res && res.data) {
-            this.user = res.data;
-            console.log('Current User Info:', res.data);
+          if (res.data) {
+            this.user=res.data;
+            console.log('Current User Info:',this.user);
           } else {
             this.addErrorMessage('User info is undefined.');
           }
         },
-        error: (err) => {
-          this.addErrorMessage('Failed to load current user info.');
-        }
       });
-    } else {
-      this.addErrorMessage('No user ID found in token.');
-    }
-  }
-
-  addErrorMessage(message: string): void {
-    if (!this.errorMessage.includes(message)) {
-      this.errorMessage.push(message);
     }
   }
 
@@ -73,8 +56,7 @@ export class ProfileComponent implements OnInit {
     }
     return `${parts[0]} ${parts[1]}`;
   }
-
-  openEditProfileDialog(enterAnimationDuration: string, exitAnimationDuration: string,user:any): void {
+  openEditProfileDialog(enterAnimationDuration: string, exitAnimationDuration: string, user: any): void {
     const dialogRef = this.dialog.open(UpdateProfileComponent, {
       width: '800px',
       data: {
@@ -84,5 +66,10 @@ export class ProfileComponent implements OnInit {
         profileImage: this.user.profileImage
       }
     });
+  }
+  addErrorMessage(message: string): void {
+    if (!this.errorMessage.includes(message)) {
+      this.errorMessage.push(message);
+    }
   }
 }

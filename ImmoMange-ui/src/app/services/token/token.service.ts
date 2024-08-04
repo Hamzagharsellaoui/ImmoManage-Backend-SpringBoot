@@ -51,6 +51,6 @@ export class TokenService {
   getUserNameFromToken(): string | null {
     const token = this.token;
     const decodedToken = this.decodeToken(token);
-    return decodedToken?.name || null; // Updated to get userName
+    return decodedToken?.name || null;
   }
 }

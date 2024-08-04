@@ -20,28 +20,35 @@ const routes: Routes = [
   { path: "", redirectTo: "/Auth/login", pathMatch: "full" },
   { path: "Auth/login", component: LoginComponent },
   { path: "Auth/register", component: RegisterComponent },
-    { path: "AppUser", component: UserComponent, canActivate: [authGuard],
+  {
+    path: "AppUser", component: UserComponent, canActivate: [authGuard],
     children: [
       { path: "body", component: BodyComponent },
       { path: "home", component: HomeComponent, canActivate: [authGuard] },
-      { path: "profile", component: ProfileComponent, canActivate: [authGuard] ,
-        children:[
-          { path: "editProfile", component: UpdateTenantComponent , canActivate: [authGuard] },
-        ]},
-      { path: "tenant", component: TenantComponent, canActivate: [authGuard],
+      {
+        path: "profile", component: ProfileComponent, canActivate: [authGuard],
+        children: [
+          { path: "editProfile", component: UpdateTenantComponent, canActivate: [authGuard] },
+        ]
+      },
+      {
+        path: "tenant", component: TenantComponent, canActivate: [authGuard],
         children: [
           { path: "newTenant", component: NewTenantComponent, canActivate: [authGuard] },
           { path: "tenant/addTenantMessage", component: AddTenantMessageComponent, canActivate: [authGuard] },
+          { path: "tenant/updateTenant", component: UpdateTenantComponent, canActivate: [authGuard] },
         ]
-          },
-      { path: "property", component: PropertyComponent, canActivate: [authGuard],
-        children:[
+      },
+      {
+        path: "property", component: PropertyComponent, canActivate: [authGuard],
+        children: [
           { path: "newProperty", component: NewPropertyComponent, canActivate: [authGuard] },
           { path: "addPropertyMessage", component: AddPropertyMessageComponent, canActivate: [authGuard] }
         ]
       },
       { path: "dashboard", component: DashboardComponent, canActivate: [authGuard] },
-    ]}];
+    ]
+  }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
