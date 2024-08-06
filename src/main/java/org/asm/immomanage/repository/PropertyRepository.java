@@ -1,6 +1,7 @@
 package org.asm.immomanage.repository;
 
 import org.asm.immomanage.models.Property;
+import org.asm.immomanage.utils.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,6 +18,5 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     @Query("SELECT p FROM Property p WHERE p.id IN :propertyIds")
     Set<Property> findByIds(@Param("propertyIds") Set<Long> propertyIds);
-
-    Optional<List<Property>> findByStatus(Property.Status AVILABLE);
+    Optional<List<Property>> findByStatus(Status status);
 }

@@ -37,7 +37,6 @@ public class AuthenticationService implements IAuthenticationService {
                 .name(registerRequestDto.name())
                 .email(registerRequestDto.email())
                 .password(passwordEncoder.encode(registerRequestDto.password()))
-                .accountLocked(false)
                 .build();
         userRepository.save(user);
     }

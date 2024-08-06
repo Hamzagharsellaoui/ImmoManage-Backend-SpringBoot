@@ -36,6 +36,8 @@ public class User implements UserDetails, Principal {
 
     @Column(name="password", nullable = false)
     private String password;
+    @Column(name="CIN",unique = true)
+    private String cin;
 
     @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL)
     @JsonManagedReference("property-manager")
@@ -45,7 +47,8 @@ public class User implements UserDetails, Principal {
     @JsonManagedReference("tenant-manager")
     private Set<Tenant> managerTenants= new HashSet<>();
 
-    private boolean accountLocked;
+    @OneToMany(mappedBy = "manager")
+    private List<RentalContract> rentalContracts;
 
 
     @Override
@@ -63,10 +66,6 @@ public class User implements UserDetails, Principal {
     @Override
     public boolean isAccountNonExpired() {
         return true;
-    }
-    @Override
-    public boolean isAccountNonLocked() {
-        return !accountLocked;
     }
     @Override
     public boolean isCredentialsNonExpired() {

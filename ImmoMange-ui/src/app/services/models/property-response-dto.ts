@@ -9,7 +9,7 @@ export interface PropertyResponseDto {
   id?: number;
   managerEmail?: string;
   propertyEquipmentDto?: Array<PropertyEquipmentDto>;
-  propertyImages?: Array<PropertyImageDto>;
+  propertyNames?: Array<string>;
   rentPrice?: number;
   status?: 'OCCUPIED' | 'AVAILABLE' | 'UNDER_MAINTENANCE';
 }

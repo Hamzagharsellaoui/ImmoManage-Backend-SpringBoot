@@ -29,19 +29,21 @@ public class Tenant {
     @OneToOne
     private RentalHistory rentalHistory;
     @ManyToMany
-    @JsonManagedReference
     @JoinTable(
             name = "tenant_property",
             joinColumns = @JoinColumn(name = "tenant_id"),
             inverseJoinColumns = @JoinColumn(name = "property_id")
     )
     private Set<Property> properties= new HashSet<>();
-    @OneToMany(mappedBy = "tenantC", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL)
     @JsonManagedReference("tenant-rentalContracts")
     private List<RentalContract> rentalContracts;
     @ManyToOne
     @JsonBackReference("tenant-manager")
     private User manager;
+
+
+
     public void addProperty(Property property) {
         if (this.properties == null) {
             this.properties = new HashSet<>();
@@ -50,6 +52,9 @@ public class Tenant {
         property.getTenants().add(this);
         this.idActualProperty = property.getId();
     }
+
+
+
     @Override
     public int hashCode() {
         return Objects.hash(id);

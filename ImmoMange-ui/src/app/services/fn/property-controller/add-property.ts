@@ -7,16 +7,18 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 import { BaseResponseDtoPropertyResponseDto } from '../../models/base-response-dto-property-response-dto';
-import { PropertyRequestDto } from '../../models/property-request-dto';
 
 export interface AddProperty$Params {
-      body: PropertyRequestDto
+  body: {
+    'property': FormDataEntryValue[];
+    'imageFile': FormDataEntryValue[];
+  }
 }
 
-export function addProperty(http: HttpClient, rootUrl: string, params: AddProperty$Params, context?: HttpContext): Observable<StrictHttpResponse<BaseResponseDtoPropertyResponseDto>> {
+export function addProperty(http: HttpClient, rootUrl: string, params?: AddProperty$Params, context?: HttpContext): Observable<StrictHttpResponse<BaseResponseDtoPropertyResponseDto>> {
   const rb = new RequestBuilder(rootUrl, addProperty.PATH, 'post');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.body(params.body, 'multipart/form-data');
   }
 
   return http.request(

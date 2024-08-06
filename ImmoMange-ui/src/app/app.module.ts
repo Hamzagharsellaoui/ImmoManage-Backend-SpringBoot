@@ -41,6 +41,7 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import { UpdateTenantComponent } from './features/Tenant/update-tenant/update-tenant.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 import { UpdateProfileComponent } from './features/update-profile/update-profile.component';
+import {TextMaskModule} from "angular2-text-mask";
 
 
 
@@ -67,32 +68,33 @@ import { UpdateProfileComponent } from './features/update-profile/update-profile
 
 
   ],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
-        FormsModule,
-        BrowserAnimationsModule,
-        MatSidenavModule,
-        MatIconModule,
-        MatButtonModule,
-        MatToolbarModule,
-        MatListModule,
-        MatRippleModule,
-        MatCardModule,
-        MatMenuModule,
-        MatTableModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatTooltipModule,
-        MatInputModule,
-        MatDialogModule,
-        MatLineModule,
-        MatSelectModule,
-        MatButtonToggleModule,
-        MatGridListModule,
-    ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatListModule,
+    MatRippleModule,
+    MatCardModule,
+    MatMenuModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTooltipModule,
+    MatInputModule,
+    MatDialogModule,
+    MatLineModule,
+    MatSelectModule,
+    MatButtonToggleModule,
+    MatGridListModule,
+
+  ],
   providers: [
     JwtHelperService,
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },

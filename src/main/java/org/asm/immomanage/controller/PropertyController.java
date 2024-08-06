@@ -1,20 +1,23 @@
 package org.asm.immomanage.controller;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.asm.immomanage.dto.BaseResponseDto;
 import org.asm.immomanage.dto.propertyDto.PropertyRequestDto;
 import org.asm.immomanage.dto.propertyDto.PropertyResponseDto;
 import org.asm.immomanage.mappers.PropertyDtoMapper;
+import org.asm.immomanage.models.ImageModel;
 import org.asm.immomanage.service.IPropertyService;
 import org.asm.immomanage.service.IUserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.io.IOException;
+import java.util.*;
 
 @RestController
 @AllArgsConstructor
@@ -25,17 +28,21 @@ public class PropertyController {
     private final IUserService userService;
     private final PropertyDtoMapper propertyDtoMapper;
 
-    @PostMapping("/addProperty")
-    public ResponseEntity<BaseResponseDto<PropertyResponseDto>> addProperty(@RequestBody PropertyRequestDto propertyRequestDto) {
-            PropertyResponseDto savedProperty = propertyService.addPropertyService(propertyRequestDto);
-            return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.CREATED, "Property added successfully", false, savedProperty), HttpStatus.CREATED);
+    @PostMapping(value = "/addProperty", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<BaseResponseDto<PropertyResponseDto>> addProperty(
+            @RequestPart("property") String propertyRequestDtoJson,
+            @RequestPart("imageFile") MultipartFile[] files) throws IOException {
+        PropertyRequestDto propertyRequestDto = new ObjectMapper().readValue(propertyRequestDtoJson, PropertyRequestDto.class);
+        PropertyResponseDto savedProperty = propertyService.addPropertyService(propertyRequestDto, files);
+        return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.CREATED, "Property added successfully", false, savedProperty), HttpStatus.CREATED);
     }
+
+
     @PutMapping("/{id}")
     public ResponseEntity<BaseResponseDto<PropertyResponseDto>> updateProperty(@PathVariable long id, @RequestBody PropertyRequestDto propertyRequestDto) {
         Optional<PropertyResponseDto> updatedProperty = Optional.of(propertyService.updatePropertyService(id, propertyRequestDto));
         return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.OK, "The Property has been updated", false, updatedProperty.get()), HttpStatus.OK);
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<BaseResponseDto<PropertyResponseDto>> getProperty(@PathVariable long id) {
         PropertyResponseDto searchedProperty = propertyService.getPropertyService(id);
@@ -59,6 +66,7 @@ public class PropertyController {
     @GetMapping("/availableProperties")
     public ResponseEntity<BaseResponseDto< Map<Long,String>>> getAllAvailableProperties() {
         Map<Long,String> availablePropertiesIdsDto = propertyService.getAllAvailableProperties();
-        return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.OK, "Availabe Properties IDs retrieved successfully", false, availablePropertiesIdsDto), HttpStatus.OK);    }
+        return new ResponseEntity<>(new BaseResponseDto<>(HttpStatus.OK, "Availabe Properties IDs retrieved successfully", false, availablePropertiesIdsDto), HttpStatus.OK);
+    }
 }
 

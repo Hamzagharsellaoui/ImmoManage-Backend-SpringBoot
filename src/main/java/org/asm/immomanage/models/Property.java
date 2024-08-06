@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.asm.immomanage.utils.Status;
 
 import java.util.*;
 
@@ -36,12 +37,12 @@ public class Property {
     private Status status = Status.AVAILABLE;
 
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    private Set<PropertyEquipments> propertyEquipments = new HashSet<>();
 
-    private List<PropertyEquipments> propertyEquipments = new ArrayList<>();
 
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     @JsonManagedReference("property-propertyImages")
-    private List<PropertyImages> propertyImages = new ArrayList<>();
+    private Set<ImageModel> propertyImages = new HashSet<>();
 
     @ManyToOne
     @JsonBackReference("property-manager")
@@ -52,7 +53,6 @@ public class Property {
     private List<RentalContract> rentalContracts = new ArrayList<>();
 
     @ManyToMany
-    @JsonBackReference
     @JoinTable(
             name = "property_tenants",
             joinColumns = @JoinColumn(name = "property_id"),
@@ -62,22 +62,11 @@ public class Property {
 
     private long idActualTenant;
 
-
-    public enum Status {
-        OCCUPIED,
-        AVAILABLE,
-        UNDER_MAINTENANCE
-    }
-
     public void addPropertyEquipment(PropertyEquipments equipment) {
         equipment.setProperty(this);
         this.propertyEquipments.add(equipment);
     }
 
-    public void addPropertyImage(PropertyImages image) {
-        image.setProperty(this);
-        this.propertyImages.add(image);
-    }
     public void addTenant(Tenant tenant) {
         if (this.tenants == null) {
             this.tenants = new HashSet<>();

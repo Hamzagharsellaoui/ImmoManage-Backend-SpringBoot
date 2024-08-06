@@ -17,6 +17,7 @@ import org.asm.immomanage.repository.PropertyEquipmentRepository;
 import org.asm.immomanage.repository.PropertyRepository;
 import org.asm.immomanage.repository.TenantRepository;
 import org.asm.immomanage.repository.UserRepository;
+import org.asm.immomanage.utils.Status;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,12 +43,12 @@ public class TenantService implements ITenantService {
         if (existingTenant.isPresent()) {
             throw new PropertyAlreadyExistsException("Tenant already exists with cin: " + tenantRequestDto.getCin());
         }
-        if(actualProperty.get().getStatus()!= Property.Status.AVAILABLE){
+        if(actualProperty.get().getStatus()!= Status.AVAILABLE){
             throw new PropertyNoAvailableException("Property with address :"+actualProperty.get().getAddress()+" is "+actualProperty.get().getStatus());
         }
         Tenant tenant = tenantDtoMapper.toTenant(tenantRequestDto);
         Tenant savedTenant=tenantRepository.save(tenant);
-        actualProperty.get().setStatus(Property.Status.OCCUPIED);
+        actualProperty.get().setStatus(Status.OCCUPIED);
         propertyRepository.save(actualProperty.get());
         return tenantDtoMapper.toTenantResponseDto(savedTenant);
     }
@@ -59,14 +60,14 @@ public class TenantService implements ITenantService {
         tenant.setCin(tenantRequestDto.getCin());
         tenant.setName(tenantRequestDto.getName());
         tenant.setEmail(tenantRequestDto.getEmail());
-        if(actualProperty.getStatus()!= Property.Status.AVAILABLE){
+        if(actualProperty.getStatus()!= Status.AVAILABLE){
             throw new PropertyNoAvailableException("Property with address :"+actualProperty.getAddress()+" is "+actualProperty.getStatus());
         }
         if(tenant.getIdActualProperty()!= tenantRequestDto.getActualPropertyId()){
-            propertyRepository.findById(tenant.getIdActualProperty()).get().setStatus(Property.Status.AVAILABLE);
+            propertyRepository.findById(tenant.getIdActualProperty()).get().setStatus(Status.AVAILABLE);
             propertyRepository.save(propertyRepository.findById(tenant.getIdActualProperty()).get());
             tenant.setIdActualProperty(tenantRequestDto.getActualPropertyId());
-            actualProperty.setStatus(Property.Status.OCCUPIED);
+            actualProperty.setStatus(Status.OCCUPIED);
             tenant.getProperties().add(actualProperty);
             propertyRepository.save(actualProperty);
         }
@@ -95,7 +96,7 @@ public class TenantService implements ITenantService {
                 .orElseThrow(() -> new RuntimeException("Tenant not found with id: " + idTenant));
         tenant.getProperties().forEach(property -> {
             property.getTenants().remove(tenant);
-            property.setStatus(Property.Status.AVAILABLE);
+            property.setStatus(Status.AVAILABLE);
             propertyRepository.save(property);
         });
         try {

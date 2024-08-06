@@ -1,9 +1,12 @@
 <mat-card class="property-details-card">
-  <mat-card-header>
+  <mat-card-header class="fixed-header">
     <mat-card-title>Property Details</mat-card-title>
   </mat-card-header>
-  <mat-card-content>
+  <mat-card-content class="scrollable-content">
     <div class="details-container">
+      <div class="img-container">
+        <img [src]="propertyImagesURLs" alt="Property Image not available">
+      </div>
       <div class="detail-item">
         <span class="detail-label">Address:</span>
         <span class="detail-value">{{ data?.address }}</span>
@@ -22,7 +25,7 @@
       </div>
       <div class="detail-item">
         <span class="detail-label">Manager Name:</span>
-        <span class="detail-value" style="font-weight:bold ">{{ managerName }}</span>
+        <span class="detail-value" style="font-weight:bold">{{ managerName }}</span>
       </div>
       <div class="detail-item">
         <span class="detail-label">Equipments:</span>
@@ -43,9 +46,11 @@
       </div>
     </div>
   </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button color="primary" mat-dialog-close>Close</button>
-    <button *ngIf="data?.status === 'AVAILABLE'" mat-raised-button color="accent" (click)="onRent()">Rent</button>
-    <button *ngIf="data?.status === 'OCCUPIED'" mat-raised-button color="accent" (click)="viewTenant()">Actual Tenant</button>
+  <mat-card-actions class="footer-actions">
+    <button mat-raised-button color="primary" mat-dialog-close class="cancel-button">Cancel</button>
+    <div class="action-buttons">
+      <button *ngIf="data?.status === 'AVAILABLE'" mat-raised-button color="accent" (click)="onRent()">Rent</button>
+      <button *ngIf="data?.status === 'OCCUPIED'" mat-raised-button color="accent" (click)="viewTenant()">See Tenant</button>
+    </div>
   </mat-card-actions>
 </mat-card>

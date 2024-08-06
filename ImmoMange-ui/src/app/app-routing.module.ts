@@ -43,7 +43,7 @@ const routes: Routes = [
         path: "property", component: PropertyComponent, canActivate: [authGuard],
         children: [
           { path: "newProperty", component: NewPropertyComponent, canActivate: [authGuard] },
-          { path: "addPropertyMessage", component: AddPropertyMessageComponent, canActivate: [authGuard] }
+          { path: "property/addPropertyMessage", component: AddPropertyMessageComponent, canActivate: [authGuard] }
         ]
       },
       { path: "dashboard", component: DashboardComponent, canActivate: [authGuard] },

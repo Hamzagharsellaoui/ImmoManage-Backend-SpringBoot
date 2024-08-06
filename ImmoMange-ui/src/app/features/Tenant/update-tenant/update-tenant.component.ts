@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TenantService } from '../../../services/services/TenantService';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { PropertyService } from "../../../services/services/propertyService";
 import {Property} from "ng-openapi-gen/lib/property";
 import {PropertyResponseDto} from "../../../services/models/property-response-dto";
@@ -28,7 +28,8 @@ export class UpdateTenantComponent implements OnInit {
     private tenantService: TenantService,
     public dialogRef: MatDialogRef<UpdateTenantComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private propertyService: PropertyService
+    private propertyService: PropertyService,
+    private router:Router
   ) {}
 
   ngOnInit(): void {
@@ -41,7 +42,6 @@ export class UpdateTenantComponent implements OnInit {
         res.data?.forEach((property: PropertyResponseDto) => {
           if(property.address===(tenant.address)){
             this.actualPropertyId=property.id;
-            console.log(this.actualPropertyId);
           }
         })
       }
@@ -85,13 +85,13 @@ export class UpdateTenantComponent implements OnInit {
         managerId: this.userID,
         actualPropertyId: this.actualPropertyId
       };
-      console.log(updateData)
       const request: UpdateTenant$Params = {
         id: this.tenantID,
         body: updateData
       };
       this.tenantService.updateTenant(request).subscribe({
         next: () => {
+          this.router.navigateByUrl("/AppUser/tenant");
           this.dialogRef.close(true);
         },
         error: err => {

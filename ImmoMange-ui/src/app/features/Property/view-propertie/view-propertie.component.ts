@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UserService } from "../../../services/services/UserService";
 import { TenantService } from "../../../services/services/TenantService";
 import { GetTenant$Params } from 'src/app/services/fn/tenant-controller/get-tenant';
+import {ImageService} from "../../../services/services/imageService";
 
 @Component({
   selector: 'app-view-property',
@@ -14,17 +15,23 @@ export class ViewPropertieComponent implements OnInit {
   managerName: string | undefined;
   private tenantList: GetTenant$Params[] = [];
   protected tenantNames: string[]=[];
+  propertyImagesURLs!: string;
+
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<ViewPropertieComponent>,
     private userService: UserService,
     private tenantService: TenantService,
+    private imageService: ImageService,
   ) {
     this.data = data.property;
   }
-
   ngOnInit(): void {
+
+    if (this.data?.propertyNames) {
+      this.propertyImagesURLs = `http://localhost:8080/images/${this.data.propertyNames}`;
+    }
     this.userService.getUserInfo(this.data.managerID).subscribe({
       next: (res) => {
         this.managerName = res.data.name;

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -18,24 +20,24 @@ public class PropertyEquipmentDtoMapper {
     private final PropertyRepository propertyRepository;
     private final PropertyEquipmentRepository propertyEquipmentRepository;
 
-    public static List<PropertyEquipmentDto> toPropertyEquipmentDtos(List<PropertyEquipments> propertyEquipments) {
+    public static Set<PropertyEquipmentDto> toPropertyEquipmentDtos(Set<PropertyEquipments> propertyEquipments) {
         if(propertyEquipments==null || propertyEquipments.isEmpty()){
-            return Collections.emptyList();
+            return Collections.emptySet();
         }
         return propertyEquipments.stream()
                 .map(equipment -> new PropertyEquipmentDto(
                         equipment.getEquipmentName(),
                         equipment.getProperty().getId(),
                         equipment.getProperty().getAddress()))
-                .toList();
+                .collect(Collectors.toSet());
     }
-    public List<PropertyEquipments> toPropertyEquipments(List<PropertyEquipmentDto> propertyEquipmentDtos) {
+    public Set<PropertyEquipments> toPropertyEquipments(Set<PropertyEquipmentDto> propertyEquipmentDtos) {
         if(propertyEquipmentDtos==null || propertyEquipmentDtos.isEmpty()){
-            return Collections.emptyList();
+            return Collections.emptySet();
         }
         return propertyEquipmentDtos.stream()
                 .map(this::toPropertyEquipment)
-                .toList();
+                .collect(Collectors.toSet());
     }
     public PropertyEquipments toPropertyEquipment(PropertyEquipmentDto propertyEquipmentDto) {
         return PropertyEquipments.builder()

@@ -76,7 +76,6 @@ export class TenantComponent implements OnInit{
         console.error('Error fetching Tenants', err);
       }
     });
-
   }
   DeleteTenant(cin: string) {
     console.log("DeleteTenant", cin);
@@ -128,5 +127,4 @@ export class TenantComponent implements OnInit{
       this.errorMessage.push(message);
     }
   }
-
 }

@@ -1,4 +1,8 @@
-<h2 mat-dialog-title>New Property</h2>
+<mat-card-header>
+  <mat-card-title>
+    New Property
+  </mat-card-title>
+</mat-card-header>
 <mat-dialog-content class="mat-typography">
   <form [formGroup]="addPropertyForm" class="new-property">
     <mat-form-field appearance="outline">
@@ -9,6 +13,7 @@
       <mat-label>Description</mat-label>
       <input matInput formControlName="description">
     </mat-form-field>
+
     <h3>Equipments</h3>
     <div formArrayName="propertyEquipmentsFormGroup">
       <div *ngFor="let equipment of propertyEquipmentsFormGroup.controls; let i = index" [formGroupName]="i" class="equipment-group">
@@ -16,37 +21,56 @@
           <mat-label>Equipment Name</mat-label>
           <input matInput formControlName="equipmentName">
         </mat-form-field>
-        <button mat-mini-fab color="primary" (click)="addEquipment()" *ngIf="i === propertyEquipmentsFormGroup.controls.length - 1">
+        <button mat-icon-button color="primary" (click)="addEquipment()" *ngIf="i === propertyEquipmentsFormGroup.controls.length - 1">
           <mat-icon>add</mat-icon>
         </button>
-        <button mat-mini-fab color="warn" (click)="removeEquipment(i)" *ngIf="i === propertyEquipmentsFormGroup.controls.length - 1 && propertyEquipmentsFormGroup.length > 1">
+        <button mat-icon-button color="warn" (click)="removeEquipment(i)" *ngIf="i === propertyEquipmentsFormGroup.controls.length - 1 && propertyEquipmentsFormGroup.length > 1">
           <mat-icon>remove</mat-icon>
         </button>
       </div>
     </div>
+    <mat-form-field appearance="outline" class="currency-form-field">
+      <mat-label>Rent Price</mat-label>
+      <div class="input-container">
+        <input
+          matInput
+          formControlName="rentPrice"
+          placeholder="Enter rent price"
+          (focus)="isPriceFocused = true"
+          (blur)="isPriceFocused = false"
+        />
+        <mat-icon class="currency-icon" *ngIf="isPriceFocused || addPropertyForm.get('rentPrice')?.value">attach_money</mat-icon>
+      </div>
+      <mat-error *ngIf="addPropertyForm.get('rentPrice')?.hasError('pattern')">
+        Please enter a correct price.
+      </mat-error>
+    </mat-form-field>
     <h3>Images</h3>
     <div formArrayName="propertyImageFormGroup">
-      <div *ngFor="let image of propertyImageFormGroup.controls; let i = index" [formGroupName]="i" class="image-group">
-        <mat-form-field appearance="outline" class="image-field">
-          <mat-label>Image URL</mat-label>
-          <input matInput formControlName="imageUrl">
-        </mat-form-field>
-        <button mat-mini-fab color="primary" (click)="addImage()" *ngIf="i === propertyImageFormGroup.controls.length - 1">
-          <mat-icon>add</mat-icon>
-        </button>
-        <button mat-mini-fab color="warn" (click)="removeImage(i)" *ngIf="i === propertyImageFormGroup.controls.length - 1 && propertyImageFormGroup.length > 1">
-          <mat-icon>remove</mat-icon>
-        </button>
+      <div *ngFor="let imageCtrl of propertyImageFormGroup.controls; let i = index" [formGroupName]="i" class="image-group">
+        <div class="file-upload-container">
+          <input type="file" #fileInput (change)="onFileSelected($event, i)" class="file-input" style="display: none" />
+          <div class="file-upload">
+            <button mat-raised-button color="primary" (click)="fileInput.click()">
+              <mat-icon>attach_file</mat-icon> Choose File
+            </button>
+            <span class="file-name">{{ fileNames[i] || 'No file chosen' }}</span>
+          </div>
+          <div class="image-preview" *ngIf="selectedFiles[i]">
+          </div>
+          <button mat-icon-button color="primary" (click)="addImage()" *ngIf="i === propertyImageFormGroup.controls.length - 1">
+            <mat-icon>add</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="removeImage(i)" *ngIf="i === propertyImageFormGroup.controls.length - 1 && propertyImageFormGroup.length > 1">
+            <mat-icon>remove</mat-icon>
+          </button>
+        </div>
       </div>
-    </div>
-    <mat-form-field appearance="outline">
-      <mat-label>Rent Price</mat-label>
-      <input matInput formControlName="rentPrice">
-    </mat-form-field>
+      </div>
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button color="primary" (click)="addProperty()" [disabled]="!addPropertyForm.valid" [mat-dialog-close]="true" cdkFocusInitial>Add Property</button>
+  <button mat-button color="primary" (click)="addProperty('400','400')" [disabled]="!addPropertyForm.valid" [mat-dialog-close]="true" >Add Property</button>
 </mat-dialog-actions>

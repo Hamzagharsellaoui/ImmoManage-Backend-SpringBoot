@@ -111,7 +111,6 @@ export class NewTenantComponent implements OnInit {
           data: { message: errorMessage }
         });
         dialogRef.afterClosed().subscribe(result => {
-          // Any additional logic after dialog close
         });
       }
     });

@@ -2,14 +2,15 @@ package org.asm.immomanage.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
-import java.math.BigDecimal;
 
 @Data
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Entity
 public class RentalContract {
 
@@ -25,7 +26,12 @@ public class RentalContract {
     @ManyToOne
     @JsonBackReference("tenant-rentalContracts")
     @JoinColumn(name = "tenant_id", nullable = false)
-    private Tenant tenantC;
+    private Tenant tenant;
+
+    @ManyToOne
+    @JoinColumn(name = "manager_id", nullable = false)
+    private User manager;
+
 
     @Column(nullable = false)
     private LocalDate startDate;
@@ -33,9 +39,11 @@ public class RentalContract {
     @Column(nullable = false)
     private LocalDate endDate;
 
-    @Column(nullable = false)
-    private BigDecimal monthlyRent;
+    @Column(name = "rent_amount", nullable = false)
+    private Double rentAmount;
 
-    @Column(nullable = false)
-    private String terms;
 }
+
+
+
+
