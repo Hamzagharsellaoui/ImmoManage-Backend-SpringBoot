@@ -25,6 +25,7 @@ public class PropertyEquipments {
 
     @ManyToOne
     @JoinColumn(name = "property_id")
+    @JsonBackReference("propertyEquipments-property")
     private Property property;
 
 

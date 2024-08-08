@@ -53,10 +53,10 @@ public class PropertyService implements IPropertyService {
         return propertyDtoMapper.toPropertyResponseDto(savedProperty);
     }
 
-    @Override
-    public PropertyResponseDto updatePropertyService(Long id, PropertyRequestDto propertyRequestDto)    {
+    public PropertyResponseDto updatePropertyService(Long id, PropertyRequestDto propertyRequestDto) {
         Property property = propertyRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Property not found with id " + id));
+
         property.setRentPrice(propertyRequestDto.rentPrice());
         property.setDescription(propertyRequestDto.description());
         property.setAddress(propertyRequestDto.address());
@@ -64,22 +64,20 @@ public class PropertyService implements IPropertyService {
 
         Set<Tenant> updatedTenants = propertyDtoMapper.IdsToTenants(propertyRequestDto.tenantsIDS());
         for (Tenant tenant : updatedTenants) {
-            property.addTenant(tenant);
             tenant.addProperty(property);
         }
-//        List<PropertyImages> updatedImages = propertyImagesDtoMapper.toPropertyImages(propertyRequestDto.propertyImages());
-//        for (PropertyImages image : updatedImages) {
-//            image.setProperty(property);
-//            property.getPropertyImages().add(image);
-//        }
+        property.setTenants(updatedTenants);
+
         Set<PropertyEquipments> updatedEquipments = propertyEquipmentDtoMapper.toPropertyEquipments(propertyRequestDto.propertyEquipmentDto());
         for (PropertyEquipments equipment : updatedEquipments) {
             equipment.setProperty(property);
-            property.getPropertyEquipments().add(equipment);
         }
-        property = propertyRepository.save(property);
-        return propertyDtoMapper.toPropertyResponseDto(property);
+        property.setPropertyEquipments(updatedEquipments);
+
+        Property savedProperty = propertyRepository.save(property);
+        return propertyDtoMapper.toPropertyResponseDto(savedProperty);
     }
+
     @Override
     public PropertyResponseDto getPropertyService(Long id) {
         Optional<Property> propertyOptional = propertyRepository.findById(id);

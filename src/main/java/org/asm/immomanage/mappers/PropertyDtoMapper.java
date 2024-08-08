@@ -28,11 +28,6 @@ public class PropertyDtoMapper {
     private final UserRepository userRepository;
 
     public Property toProperty(PropertyRequestDto propertyRequestDto) {
-//        "id": 23,
-//                "name": "434377743_735142385474998_183917071393085085_n.jpg",
-//                "type": "image/jpeg",
-//                "filePath": "C:/Users/LENOVO/IdeaProjects/ImmoManage/src/main/resources/images/434377743_735142385474998_183917071393085085_n.jpg"
-//    }
         Property property = Property.builder()
                 .rentPrice(propertyRequestDto.rentPrice())
                 .description(propertyRequestDto.description())
@@ -51,6 +46,20 @@ public class PropertyDtoMapper {
             equipments.forEach(property::addPropertyEquipment);
 
         }
+        return property;
+    }
+    public Property toProperty(PropertyResponseDto  propertyResponseDto) {
+        Property property = Property.builder()
+                .id(propertyResponseDto.id())
+                .rentPrice(propertyResponseDto.rentPrice())
+                .description(propertyResponseDto.description())
+                .address(propertyResponseDto.address())
+                .status(Optional.ofNullable(propertyResponseDto.status()).orElse(Status.AVAILABLE))
+                .tenants(IdsToTenants(propertyResponseDto.tenantsIDS()))
+                .manager(userRepository.findById(propertyResponseDto.managerID()).get())
+                .propertyEquipments(new HashSet<>())
+                .build();
+
         return property;
     }
     public  PropertyResponseDto toPropertyResponseDto(Property property) {

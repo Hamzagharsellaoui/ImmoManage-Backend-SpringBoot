@@ -48,6 +48,7 @@ public class User implements UserDetails, Principal {
     private Set<Tenant> managerTenants= new HashSet<>();
 
     @OneToMany(mappedBy = "manager")
+    @JsonManagedReference("manager-rentalContracts")
     private List<RentalContract> rentalContracts;
 
 

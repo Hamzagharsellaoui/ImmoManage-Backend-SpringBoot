@@ -4,8 +4,11 @@
   </mat-card-header>
   <mat-card-content class="scrollable-content">
     <div class="details-container">
-      <div class="img-container">
-        <img [src]="propertyImagesURLs" alt="Property Image not available">
+      <div class="img-container" *ngIf="propertyImagesURLs">
+        <img [src]="propertyImagesURLs" alt="Property Image" />
+      </div>
+      <div class="img-container" *ngIf="!propertyImagesURLs">
+        <p>No image available.</p>
       </div>
       <div class="detail-item">
         <span class="detail-label">Address:</span>

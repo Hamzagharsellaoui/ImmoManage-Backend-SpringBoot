@@ -14,7 +14,7 @@ import {UpdateTenant$Params} from "../../../services/fn/tenant-controller/update
   templateUrl: './update-tenant.component.html',
   styleUrls: ['./update-tenant.component.scss']
 })
-export class UpdateTenantComponent implements OnInit {
+export class  UpdateTenantComponent implements OnInit {
   updateForm!: FormGroup;
   availableProperties: Map<number, string> = new Map();
   selectedPropertyId?: number;

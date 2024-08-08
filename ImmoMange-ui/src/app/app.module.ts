@@ -41,8 +41,10 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import { UpdateTenantComponent } from './features/Tenant/update-tenant/update-tenant.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 import { UpdateProfileComponent } from './features/update-profile/update-profile.component';
-import {TextMaskModule} from "angular2-text-mask";
-
+import { UpdatePropertyComponent } from './features/Property/update-property/update-property.component';
+import { UpdatePropertyMessageComponent } from './features/messages/update-property-message/update-property-message.component';
+import { DeletePropertyMessageComponent } from './features/messages/delete-property-message/delete-property-message.component';
+import { DeleteTenantMessageComponent } from './features/messages/delete-tenant-message/delete-tenant-message.component';
 
 
 @NgModule({
@@ -64,7 +66,11 @@ import {TextMaskModule} from "angular2-text-mask";
     AddTenantMessageComponent,
     ViewTenantComponent,
     UpdateTenantComponent,
-    UpdateProfileComponent
+    UpdateProfileComponent,
+    UpdatePropertyComponent,
+    UpdatePropertyMessageComponent,
+    DeletePropertyMessageComponent,
+    DeleteTenantMessageComponent,
 
 
   ],

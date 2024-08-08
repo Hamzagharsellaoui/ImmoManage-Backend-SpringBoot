@@ -36,7 +36,21 @@ public class TenantDtoMapper {
                 .build();
         Optional<Property> property = propertyRepository.findById(tenantRequestDto.getActualPropertyId());
         property.ifPresent(tenant::addProperty);
-
+        return tenant;
+    }
+    public Tenant toTenant(TenantResponseDto tenantResponseDto) {
+        Tenant tenant= Tenant.builder()
+                .id(tenantResponseDto.getId())
+                .cin(tenantResponseDto.getCin())
+                .name(tenantResponseDto.getName())
+                .email(tenantResponseDto.getEmail())
+                .phoneNumber(tenantResponseDto.getPhoneNumber())
+                .idActualProperty(tenantResponseDto.getActualPropertyId())
+                .manager(userRepository.findById(tenantResponseDto.getManagerId()).get())
+                .address(propertyRepository.findById(tenantResponseDto.getActualPropertyId()).get().getAddress())
+                .build();
+        Optional<Property> property = propertyRepository.findById(tenantResponseDto.getActualPropertyId());
+        property.ifPresent(tenant::addProperty);
         return tenant;
     }
     public TenantResponseDto toTenantResponseDto(Tenant tenant) {

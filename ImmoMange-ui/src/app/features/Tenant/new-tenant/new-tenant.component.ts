@@ -18,6 +18,7 @@ import {UserService} from "../../../services/services/UserService";
 })
 export class NewTenantComponent implements OnInit {
   addTenantForm!: FormGroup;
+  contractForm!:FormGroup;
   errorMessage: Array<string> = [];
   availableProperties: Map<number, string> = new Map();
   currentUserId: number = 0;
@@ -38,7 +39,7 @@ export class NewTenantComponent implements OnInit {
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
-      propertyAddress: ['', [Validators.required]]
+      propertyAddress: ['', [Validators.required]],
     });
     this.loadAvailableProperties();
     this.getCurrentUserID().subscribe({
@@ -115,6 +116,7 @@ export class NewTenantComponent implements OnInit {
       }
     });
   }
+
   getCurrentUserID(): Observable<number> {
     const id:number | null = this.tokenService.getUserIdFromToken();
     if (id) {

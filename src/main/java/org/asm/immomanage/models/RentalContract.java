@@ -29,9 +29,9 @@ public class RentalContract {
     private Tenant tenant;
 
     @ManyToOne
+    @JsonBackReference("manager-rentalContracts")
     @JoinColumn(name = "manager_id", nullable = false)
     private User manager;
-
 
     @Column(nullable = false)
     private LocalDate startDate;
@@ -41,9 +41,4 @@ public class RentalContract {
 
     @Column(name = "rent_amount", nullable = false)
     private Double rentAmount;
-
 }
-
-
-
-

@@ -26,23 +26,25 @@ public class Tenant {
     private String address;
     private String phoneNumber;
     private long idActualProperty;
+
     @OneToOne
     private RentalHistory rentalHistory;
+
     @ManyToMany
     @JoinTable(
             name = "tenant_property",
             joinColumns = @JoinColumn(name = "tenant_id"),
             inverseJoinColumns = @JoinColumn(name = "property_id")
     )
-    private Set<Property> properties= new HashSet<>();
+    private Set<Property> properties = new HashSet<>();
+
     @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL)
     @JsonManagedReference("tenant-rentalContracts")
     private List<RentalContract> rentalContracts;
+
     @ManyToOne
     @JsonBackReference("tenant-manager")
     private User manager;
-
-
 
     public void addProperty(Property property) {
         if (this.properties == null) {
@@ -52,8 +54,6 @@ public class Tenant {
         property.getTenants().add(this);
         this.idActualProperty = property.getId();
     }
-
-
 
     @Override
     public int hashCode() {
@@ -68,4 +68,3 @@ public class Tenant {
         return Objects.equals(id, tenant.id);
     }
 }
-

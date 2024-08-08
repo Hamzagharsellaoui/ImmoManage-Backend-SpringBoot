@@ -1,4 +1,5 @@
 package org.asm.immomanage.service;
+import jakarta.el.PropertyNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.asm.immomanage.dto.propertyDto.PropertyRequestDto;
 import org.asm.immomanage.dto.propertyDto.PropertyResponseDto;
@@ -9,23 +10,16 @@ import org.asm.immomanage.exception.PropertyAlreadyExistsException;
 import org.asm.immomanage.exception.PropertyNoAvailableException;
 import org.asm.immomanage.mappers.TenantDtoMapper;
 import org.asm.immomanage.dto.tenantDto.TenantRequestDto;
-import org.asm.immomanage.models.Property;
-import org.asm.immomanage.models.PropertyEquipments;
-import org.asm.immomanage.models.PropertyImages;
-import org.asm.immomanage.models.Tenant;
-import org.asm.immomanage.repository.PropertyEquipmentRepository;
-import org.asm.immomanage.repository.PropertyRepository;
-import org.asm.immomanage.repository.TenantRepository;
-import org.asm.immomanage.repository.UserRepository;
+import org.asm.immomanage.models.*;
+import org.asm.immomanage.repository.*;
 import org.asm.immomanage.utils.Status;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.Set;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -35,47 +29,76 @@ public class TenantService implements ITenantService {
     private final PropertyRepository propertyRepository;
     private final TenantDtoMapper tenantDtoMapper;
     private final UserRepository userRepository;
-    private final PropertyEquipmentRepository propertyEquipmentRepository;
+    private final RentalContractRepository rentalContractRepository;
     @Override
     public TenantResponseDto addTenantService(TenantRequestDto tenantRequestDto) {
         Optional<Tenant> existingTenant = tenantRepository.findByCin(tenantRequestDto.getCin());
-        Optional<Property> actualProperty= propertyRepository.findById(tenantRequestDto.getActualPropertyId());
+        Property actualProperty = propertyRepository.findById(tenantRequestDto.getActualPropertyId())
+                .orElseThrow(() -> new PropertyNotFoundException("Property not found with id " + tenantRequestDto.getActualPropertyId()));
+
         if (existingTenant.isPresent()) {
-            throw new PropertyAlreadyExistsException("Tenant already exists with cin: " + tenantRequestDto.getCin());
+            throw new PropertyAlreadyExistsException("Tenant already exists with CIN: " + tenantRequestDto.getCin());
         }
-        if(actualProperty.get().getStatus()!= Status.AVAILABLE){
-            throw new PropertyNoAvailableException("Property with address :"+actualProperty.get().getAddress()+" is "+actualProperty.get().getStatus());
+
+        if (actualProperty.getStatus() != Status.AVAILABLE) {
+            throw new PropertyNoAvailableException("Property with address: " + actualProperty.getAddress() + " is " + actualProperty.getStatus());
         }
         Tenant tenant = tenantDtoMapper.toTenant(tenantRequestDto);
-        Tenant savedTenant=tenantRepository.save(tenant);
-        actualProperty.get().setStatus(Status.OCCUPIED);
-        propertyRepository.save(actualProperty.get());
+        Tenant savedTenant = tenantRepository.save(tenant);
+        actualProperty.setStatus(Status.OCCUPIED);
+        propertyRepository.save(actualProperty);
+        RentalContract rentalContract = new RentalContract();
+        LocalDate currentDate = LocalDate.now();
+        rentalContract.setStartDate(currentDate);
+        rentalContract.setEndDate(currentDate.plusYears(1));
+        rentalContract.setTenant(tenant);
+        rentalContract.setProperty(actualProperty);
+        rentalContract.setRentAmount(actualProperty.getRentPrice());
+        rentalContract.setManager(tenant.getManager());
+        rentalContractRepository.save(rentalContract);
         return tenantDtoMapper.toTenantResponseDto(savedTenant);
     }
-    @Override
+
     public TenantResponseDto updateTenantService(Long id, TenantRequestDto tenantRequestDto) {
         Tenant tenant = tenantRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Property not found with id " + id));
-        Property actualProperty= propertyRepository.findById(tenantRequestDto.getActualPropertyId()).get();
+                .orElseThrow(() -> new NoSuchElementException("Tenant not found with id " + id));
+
+        Property actualProperty = propertyRepository.findById(tenantRequestDto.getActualPropertyId())
+                .orElseThrow(() -> new NoSuchElementException("Property not found with id " + tenantRequestDto.getActualPropertyId()));
+
         tenant.setCin(tenantRequestDto.getCin());
         tenant.setName(tenantRequestDto.getName());
         tenant.setEmail(tenantRequestDto.getEmail());
-        if(actualProperty.getStatus()!= Status.AVAILABLE){
-            throw new PropertyNoAvailableException("Property with address :"+actualProperty.getAddress()+" is "+actualProperty.getStatus());
-        }
-        if(tenant.getIdActualProperty()!= tenantRequestDto.getActualPropertyId()){
-            propertyRepository.findById(tenant.getIdActualProperty()).get().setStatus(Status.AVAILABLE);
-            propertyRepository.save(propertyRepository.findById(tenant.getIdActualProperty()).get());
+        tenant.setPhoneNumber(tenantRequestDto.getPhoneNumber());
+
+        if (!Objects.equals(tenant.getIdActualProperty(), tenantRequestDto.getActualPropertyId())) {
+            // Ensure the new property is available
+            if (actualProperty.getStatus() != Status.AVAILABLE) {
+                throw new PropertyNoAvailableException("Property with address: " + actualProperty.getAddress() + " is " + actualProperty.getStatus());
+            }
+
+            // Set the old property to available
+            Property oldProperty = propertyRepository.findById(tenant.getIdActualProperty())
+                    .orElseThrow(() -> new NoSuchElementException("Old property not found with id " + tenant.getIdActualProperty()));
+            oldProperty.setStatus(Status.AVAILABLE);
+            propertyRepository.save(oldProperty);
+
+            // Update tenant's property information
             tenant.setIdActualProperty(tenantRequestDto.getActualPropertyId());
+            tenant.setAddress(actualProperty.getAddress());
+
+            // Set the new property to occupied
             actualProperty.setStatus(Status.OCCUPIED);
             tenant.getProperties().add(actualProperty);
             propertyRepository.save(actualProperty);
         }
-        tenant.addProperty(propertyRepository.findById(tenantRequestDto.getActualPropertyId()).orElseThrow(() -> new NoPropertiesFoundException("Property not found with id " + id)));
+
         tenant.setManager(userRepository.getReferenceById(tenantRequestDto.getManagerId()));
         tenantRepository.save(tenant);
+
         return tenantDtoMapper.toTenantResponseDto(tenant);
     }
+
     @Override
     public TenantResponseDto getTenantService(Long idTenant) {
         Optional<Tenant> tenantOptional = tenantRepository.findById(idTenant);
@@ -104,7 +127,8 @@ public class TenantService implements ITenantService {
         } catch (DataIntegrityViolationException e) {
             throw new RuntimeException("Error occurred while deleting tenant: " + e.getMessage(), e);
         }
-        }
+    }
+
     @Override
     public List<TenantResponseDto> getAllTenantsService() {
         List<Tenant> tenants = tenantRepository.findAll();

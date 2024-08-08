@@ -6,6 +6,7 @@ import { PropertyService } from "../../../services/services/propertyService";
 import { MatDialog } from "@angular/material/dialog";
 import { NewPropertyComponent } from "../new-property/new-property.component";
 import { ViewPropertieComponent } from "../view-propertie/view-propertie.component";
+import {UpdatePropertyComponent} from "../update-property/update-property.component";
 
 @Component({
   selector: 'app-property',
@@ -96,14 +97,14 @@ export class PropertyComponent implements OnInit {
   }
 
   openUpdateDialog(enterAnimationDuration: string, exitAnimationDuration: string, property: any) {
-    // const dialogRef = this.dialog.open(UpdatePropertyComponent, {
-    //   width: '800px',
-    //   enterAnimationDuration,
-    //   exitAnimationDuration,
-    //   data: { property }
-    // });
-    // dialogRef.afterClosed().subscribe(result => {
-    //   this.getAllProperties(); // Refresh the data after updating a property
-    // });
+    const dialogRef = this.dialog.open(UpdatePropertyComponent, {
+      width: '800px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: { property }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.getAllProperties();
+    });
   }
 }

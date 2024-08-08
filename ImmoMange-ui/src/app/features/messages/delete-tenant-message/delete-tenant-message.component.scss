@@ -1,0 +1,21 @@
+.message-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &.success {
+    color: #4CAF50;
+  }
+
+  &.error {
+    color: red;
+  }
+
+  mat-icon {
+    font-size: 24px;
+  }
+
+  p {
+    margin: 0;
+  }
+}
